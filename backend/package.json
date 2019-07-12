@@ -4,8 +4,16 @@
   "description": "backend of my open-gate server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "backpack"
   },
   "author": "chap",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "backpack-core": ">=0.8.4",
+    "express": ">=4.17.1",
+    "gpio": ">=0.2.10",
+    "mongoose": ">=5.6.4",
+    "my-own-logger": ">=0.0.3",
+    "socket.io": ">=2.2.0"
+  }
 }
