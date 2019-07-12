@@ -1,0 +1,25 @@
+{
+  "name": "portail",
+  "version": "0.0.1",
+  "description": "just a server/client app to open my gate",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/seba1204/portail.git"
+  },
+  "keywords": [
+    "node",
+    "js",
+    "reactNative",
+    "openning-gate"
+  ],
+  "author": "chap",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seba1204/portail/issues"
+  },
+  "homepage": "https://github.com/seba1204/portail#readme"
+}
