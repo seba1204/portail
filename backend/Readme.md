@@ -66,10 +66,12 @@ In the Headers :
 #### POST
 Ajouter le token d'un utilisateur à la db
 ##### body
-Required : token
-Optional : 	- isAdmin (default false)
-						- isAllowed (default true)
-Ex : 
+- Required : token
+- Optional :
+  * isAdmin (default false)
+  * isAllowed (default true)
+  
+Ex :
 ```js
 {
   token: '452976146'
