@@ -81,21 +81,21 @@ Ex :
 #### GET
 retourne la liste de tous les utilisateurs si aucun username n'est passé dans le body
 
-Ex :
+With several usernames :
 ```js
 {
   usernames: ['seba12', 'tipi']
 }
 ```
 
-Ex :
+With only one username :
 ```js
 {
   usernames: ['seba12']
 }
 ```
 
-Ex :
+Get all usernames :
 ```js
 {
 }
