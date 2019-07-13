@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { userCode, basicsCode } from '../../../../codes'
+import { userCode, basicsCode } from '../../../codes'
 
 const checkIfDataExists = async(type, req, res, next) => {
   const User = mongoose.model('User')
@@ -7,15 +7,33 @@ const checkIfDataExists = async(type, req, res, next) => {
   switch(type){
     case 'email':
       const { email } = req.body
+      if (email === undefined){
+        const er = userCode.err.emailIsNotSpecified
+        return res.status(404).send(`${er.code} - ${er.description}`)
+      }
       result = await User.find({ email })
       error = {...userCode.err.emailExists, data:email}
       break
     case 'username':
       const { username } = req.body
+      if (username === undefined){
+        const er = userCode.err.usernameIsNotSpecified
+        return res.status(404).send(`${er.code} - ${er.description}`)
+      }
       result = await User.find({ username })
       error = {...userCode.err.usernameExists, data:username}
       break
     case 'token':
+      const Token = mongoose.model('Token')
+      const { token } = req.body
+      if (token === undefined){
+        const er = userCode.err.tokenIsNotSpecified
+        return res.status(404).send(`${er.code} - ${er.description}`)
+      }
+      result = await Token.find({ token })
+      error = {...userCode.err.tokenExists, data:''}
+      break
+    case 'tokenBool':
       result = await User.find({ token: req })
       return result.length ? true : false
       break

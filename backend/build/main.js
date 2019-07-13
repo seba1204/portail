@@ -145,7 +145,7 @@ const ok = {
 /*!***********************************!*\
   !*** ./src/codes/Users/errors.js ***!
   \***********************************/
-/*! exports provided: emailExists, usernameExists, tokenExists, unknownTypeToCheck */
+/*! exports provided: emailExists, usernameExists, tokenExists, unknownTypeToCheck, wrongToken, tokenDoesNotExists, tokenIsNotSpecified, usernameIsNotSpecified, emailIsNotSpecified, nameIsNotSpecified, lastnameIsNotSpecified, passwordIsNotSpecified */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -154,21 +154,61 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "usernameExists", function() { return usernameExists; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tokenExists", function() { return tokenExists; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unknownTypeToCheck", function() { return unknownTypeToCheck; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrongToken", function() { return wrongToken; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tokenDoesNotExists", function() { return tokenDoesNotExists; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tokenIsNotSpecified", function() { return tokenIsNotSpecified; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "usernameIsNotSpecified", function() { return usernameIsNotSpecified; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "emailIsNotSpecified", function() { return emailIsNotSpecified; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nameIsNotSpecified", function() { return nameIsNotSpecified; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lastnameIsNotSpecified", function() { return lastnameIsNotSpecified; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "passwordIsNotSpecified", function() { return passwordIsNotSpecified; });
 const emailExists = {
-  code: 'e1',
+  code: 'e01',
   description: 'email is already used because it was found in our database'
 };
 const usernameExists = {
-  code: 'e2',
+  code: 'e02',
   description: 'username is already used because it was found in our database'
 };
 const tokenExists = {
-  code: 'e3',
+  code: 'e03',
   description: 'token is already used because it was found in our database'
 };
 const unknownTypeToCheck = {
-  code: 'e4',
+  code: 'e04',
   description: 'the type to check if it exist in our database is unknown'
+};
+const wrongToken = {
+  code: 'e05',
+  description: 'token is unauthorized !'
+};
+const tokenDoesNotExists = {
+  code: 'e06',
+  description: 'token does not exists !'
+};
+const tokenIsNotSpecified = {
+  code: 'e07',
+  description: 'token is not specified. Please specify a token'
+};
+const usernameIsNotSpecified = {
+  code: 'e08',
+  description: 'username is not specified. Please specify a username'
+};
+const emailIsNotSpecified = {
+  code: 'e09',
+  description: 'email is not specified. Please specify an email'
+};
+const nameIsNotSpecified = {
+  code: 'e10',
+  description: 'nameis not specified. Please specify a name'
+};
+const lastnameIsNotSpecified = {
+  code: 'e11',
+  description: 'lastname is not specified. Please specify a lastname'
+};
+const passwordIsNotSpecified = {
+  code: 'e12',
+  description: 'password is not specified. Please specify a password'
 };
 
 /***/ }),
@@ -196,15 +236,20 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************!*\
   !*** ./src/codes/Users/success.js ***!
   \************************************/
-/*! exports provided: userCreated */
+/*! exports provided: userCreated, tokenAdded */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "userCreated", function() { return userCreated; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tokenAdded", function() { return tokenAdded; });
 const userCreated = {
   code: 's1',
   description: 'user was created !'
+};
+const tokenAdded = {
+  code: 's2',
+  description: 'token was correctly added to the database !'
 };
 
 /***/ }),
@@ -276,7 +321,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
 
 const historySchema = new mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema({
-  token: Number,
+  token: String,
   date: Date,
   action: String
 }, {
@@ -292,7 +337,7 @@ const historySchema = new mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema
 /*!***************************************!*\
   !*** ./src/database/schemas/index.js ***!
   \***************************************/
-/*! exports provided: usersSchema, historySchema */
+/*! exports provided: usersSchema, historySchema, tokenSchema */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -303,9 +348,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./history */ "./src/database/schemas/history.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "historySchema", function() { return _history__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
+/* harmony import */ var _tokens__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tokens */ "./src/database/schemas/tokens.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "tokenSchema", function() { return _tokens__WEBPACK_IMPORTED_MODULE_2__["default"]; });
 
 
 
+
+
+
+/***/ }),
+
+/***/ "./src/database/schemas/tokens.js":
+/*!****************************************!*\
+  !*** ./src/database/schemas/tokens.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
+
+const tokenSchema = new mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema({
+  token: {
+    type: String,
+    unique: true
+  },
+  isAdmin: Boolean,
+  isAllowed: Boolean
+}, {
+  versionKey: false
+}, {
+  collection: 'tokens'
+});
+/* harmony default export */ __webpack_exports__["default"] = (tokenSchema);
 
 /***/ }),
 
@@ -333,8 +410,7 @@ const usersSchema = new mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema({
     unique: true
   },
   password: String,
-  token: String,
-  isAdmin: Boolean
+  token: String
 }, {
   versionKey: false
 }, {
@@ -406,59 +482,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const setEnvVar = async () => {
-  await _NODE_ENV__WEBPACK_IMPORTED_MODULE_0__["defineToken"](); // le token en mode développement
-
   await _NODE_ENV__WEBPACK_IMPORTED_MODULE_0__["definePort"](); // le port du serveur
 
   await _NODE_ENV__WEBPACK_IMPORTED_MODULE_0__["defineDB"](); // on crée les variables environnement pour gérer le database
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (setEnvVar);
-
-/***/ }),
-
-/***/ "./src/initialize/NODE_ENV/auth.js":
-/*!*****************************************!*\
-  !*** ./src/initialize/NODE_ENV/auth.js ***!
-  \*****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var my_own_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! my-own-logger */ "my-own-logger");
-/* harmony import */ var my_own_logger__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(my_own_logger__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _constantes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constantes */ "./src/constantes.js");
- // logger
-
- // on importe les valeurs des constantes qui sont exclues des exports github
-
-const {
-  DEFAULT_TOKEN
-} = _constantes__WEBPACK_IMPORTED_MODULE_1__;
-
-const defineToken = async token => {
-  const {
-    NODE_ENV
-  } = process.env;
-
-  if (NODE_ENV === "development") {
-    if (!token) {
-      await (process.env.TOKEN = DEFAULT_TOKEN);
-    } else {
-      await (process.env.TOKEN = token);
-    }
-
-    my_own_logger__WEBPACK_IMPORTED_MODULE_0___default()({
-      name: "Token",
-      status: 'reg',
-      mode: `dev`,
-      value: `${process.env.TOKEN}`
-    });
-  }
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (defineToken);
 
 /***/ }),
 
@@ -539,7 +568,7 @@ const defineDB = async () => {
 /*!******************************************!*\
   !*** ./src/initialize/NODE_ENV/index.js ***!
   \******************************************/
-/*! exports provided: definePort, defineToken, defineDB */
+/*! exports provided: definePort, defineDB */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -547,15 +576,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _server__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./server */ "./src/initialize/NODE_ENV/server.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "definePort", function() { return _server__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
-/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth */ "./src/initialize/NODE_ENV/auth.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "defineToken", function() { return _auth__WEBPACK_IMPORTED_MODULE_1__["default"]; });
-
-/* harmony import */ var _database__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./database */ "./src/initialize/NODE_ENV/database.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "defineDB", function() { return _database__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+/* harmony import */ var _database__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./database */ "./src/initialize/NODE_ENV/database.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "defineDB", function() { return _database__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
  //pour définir le port du server
-
- //pour définir le token en mode développement
 
  // pour définir les consatntes de connexion à la base de données
 
@@ -798,7 +822,8 @@ const startDB = async () => {
   }); //on définit les schémas de la bdd
 
   mongoose__WEBPACK_IMPORTED_MODULE_1___default.a.model('User', _database_schemas__WEBPACK_IMPORTED_MODULE_2__["usersSchema"]);
-  mongoose__WEBPACK_IMPORTED_MODULE_1___default.a.model('History', _database_schemas__WEBPACK_IMPORTED_MODULE_2__["historySchema"]); //on lance et on attend la connexion à la base
+  mongoose__WEBPACK_IMPORTED_MODULE_1___default.a.model('History', _database_schemas__WEBPACK_IMPORTED_MODULE_2__["historySchema"]);
+  mongoose__WEBPACK_IMPORTED_MODULE_1___default.a.model('Token', _database_schemas__WEBPACK_IMPORTED_MODULE_2__["tokenSchema"]); //on lance et on attend la connexion à la base
 
   await mongoose__WEBPACK_IMPORTED_MODULE_1___default.a.connect(url, options, _mongooseConnectLogResult);
 };
@@ -932,66 +957,64 @@ const initializeRoutes = async callback => {
 
 /***/ }),
 
-/***/ "./src/routes/users/index.js":
-/*!***********************************!*\
-  !*** ./src/routes/users/index.js ***!
-  \***********************************/
-/*! exports provided: UsersRoute, initializeRoute */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./users */ "./src/routes/users/users.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UsersRoute", function() { return _users__WEBPACK_IMPORTED_MODULE_0__["UsersRoute"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "initializeRoute", function() { return _users__WEBPACK_IMPORTED_MODULE_0__["initializeRoute"]; });
-
-
-
-/***/ }),
-
-/***/ "./src/routes/users/middlewares/authentification.js":
-/*!**********************************************************!*\
-  !*** ./src/routes/users/middlewares/authentification.js ***!
-  \**********************************************************/
+/***/ "./src/routes/users/admin/authentification.js":
+/*!****************************************************!*\
+  !*** ./src/routes/users/admin/authentification.js ***!
+  \****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var my_own_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! my-own-logger */ "my-own-logger");
+/* harmony import */ var my_own_logger__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(my_own_logger__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mongoose */ "mongoose");
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../codes */ "./src/codes/index.js");
+
+
  //authentification in users/amdin
 
 const authentificate = (req, res, next) => {
-  const User = mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.model('User');
+  const Token = mongoose__WEBPACK_IMPORTED_MODULE_1___default.a.model('Token');
   const {
     token
   } = req.headers;
-  const query = User.find({
+
+  if (token === undefined) {
+    const er = _codes__WEBPACK_IMPORTED_MODULE_2__["userCode"].err.tokenIsNotSpecified;
+    return res.status(404).send(`${er.code} - ${er.description}`);
+  }
+
+  const query = Token.find({
     token
   }, (er, data) => {
     if (er) {
-      log({
+      my_own_logger__WEBPACK_IMPORTED_MODULE_0___default()({
         name: 'API',
         status: 'err',
         value: `error : ${er}`
       });
-      return res.status(500).send(`an internal server error occured on authentificating ${token}`);
+      const iEr = _codes__WEBPACK_IMPORTED_MODULE_2__["basicsCode"].err.internalError;
+      return res.status(500).send(`${iEr.code} - ${iEr.description}`);
     }
 
     if (data.length) {
-      if (data.filter(user => user.isAdmin === true).length) {
+      if (data.filter(token => token.isAdmin === true).length) {
         res.status(200);
         return next();
       } else {
-        log({
+        my_own_logger__WEBPACK_IMPORTED_MODULE_0___default()({
           name: 'API',
           status: 'warn',
-          value: `somebody is trying to connect as admin with a wrong token : ${data[0].username}`
+          value: `somebody is trying to connect as admin with a wrong token`
         });
-        return res.status(401).send('wrong token !');
+        const iWer = _codes__WEBPACK_IMPORTED_MODULE_2__["userCode"].err.wrongToken;
+        return res.status(401).send(`${iWer.code} - ${iWer.description}`);
       }
+    } else {
+      const iTer = _codes__WEBPACK_IMPORTED_MODULE_2__["userCode"].err.tokenDoesNotExists;
+      return res.status(401).send(`${iTer.code} - ${iTer.description}`);
     }
   });
 };
@@ -1000,29 +1023,97 @@ const authentificate = (req, res, next) => {
 
 /***/ }),
 
-/***/ "./src/routes/users/middlewares/deleteUser.js":
-/*!****************************************************!*\
-  !*** ./src/routes/users/middlewares/deleteUser.js ***!
-  \****************************************************/
-/*! exports provided: default */
+/***/ "./src/routes/users/admin/index.js":
+/*!*****************************************!*\
+  !*** ./src/routes/users/admin/index.js ***!
+  \*****************************************/
+/*! exports provided: auth, newToken */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
- // mdl appelé en delete sur /users/admin
+/* harmony import */ var _authentification__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./authentification */ "./src/routes/users/admin/authentification.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "auth", function() { return _authentification__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
-const deleteUser = () => {};
+/* harmony import */ var _newToken__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./newToken */ "./src/routes/users/admin/newToken.js");
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "newToken", function() { return _newToken__WEBPACK_IMPORTED_MODULE_1__; });
 
-/* harmony default export */ __webpack_exports__["default"] = (deleteUser);
+
+
 
 /***/ }),
 
-/***/ "./src/routes/users/middlewares/helpers/checkIfDataExists.js":
-/*!*******************************************************************!*\
-  !*** ./src/routes/users/middlewares/helpers/checkIfDataExists.js ***!
-  \*******************************************************************/
+/***/ "./src/routes/users/admin/newToken.js":
+/*!********************************************!*\
+  !*** ./src/routes/users/admin/newToken.js ***!
+  \********************************************/
+/*! exports provided: isTokenOk, addToken */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTokenOk", function() { return isTokenOk; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addToken", function() { return addToken; });
+/* harmony import */ var my_own_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! my-own-logger */ "my-own-logger");
+/* harmony import */ var my_own_logger__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(my_own_logger__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mongoose */ "mongoose");
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../codes */ "./src/codes/index.js");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../helpers */ "./src/routes/users/helpers/index.js");
+
+
+
+
+const isTokenOk = async (req, res, next) => await Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["checkIfDataExists"])('token', req, res, next);
+const addToken = async (req, res, next) => {
+  const {
+    token
+  } = req.body;
+
+  if (token === undefined) {
+    const er = _codes__WEBPACK_IMPORTED_MODULE_2__["userCode"].err.tokenIsNotSpecified;
+    return res.status(404).send(`${er.code} - ${er.description}`);
+  }
+
+  let {
+    isAdmin,
+    isAllowed
+  } = req.body;
+  if (isAdmin === undefined) isAdmin = false;
+  if (isAllowed === undefined) isAllowed = true;
+  const newToken = new mongoose__WEBPACK_IMPORTED_MODULE_1___default.a.model('Token')({
+    token,
+    isAdmin,
+    isAllowed
+  });
+  newToken.save((err, account) => {
+    if (err) {
+      my_own_logger__WEBPACK_IMPORTED_MODULE_0___default()({
+        name: 'Mongoose',
+        status: 'err',
+        value: `Error on adding token : ${err}`
+      });
+      const iErr = _codes__WEBPACK_IMPORTED_MODULE_2__["basicsCode"].err.internalError;
+      return res.status(500).send(`${iErr.code} - ${iErr.description}`);
+    }
+
+    my_own_logger__WEBPACK_IMPORTED_MODULE_0___default()({
+      name: 'Mongoose',
+      status: 'ok',
+      value: `token was added to the db !`
+    });
+    const uSuc = _codes__WEBPACK_IMPORTED_MODULE_2__["userCode"].suc.tokenAdded;
+    res.status(200).send(`${uSuc.code} - ${uSuc.description}`);
+    return next();
+  });
+};
+
+/***/ }),
+
+/***/ "./src/routes/users/helpers/checkIfDataExists.js":
+/*!*******************************************************!*\
+  !*** ./src/routes/users/helpers/checkIfDataExists.js ***!
+  \*******************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1030,7 +1121,7 @@ const deleteUser = () => {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
 /* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../codes */ "./src/codes/index.js");
+/* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../codes */ "./src/codes/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -1049,6 +1140,12 @@ const checkIfDataExists = async (type, req, res, next) => {
       const {
         email
       } = req.body;
+
+      if (email === undefined) {
+        const er = _codes__WEBPACK_IMPORTED_MODULE_1__["userCode"].err.emailIsNotSpecified;
+        return res.status(404).send(`${er.code} - ${er.description}`);
+      }
+
       result = await User.find({
         email
       });
@@ -1061,6 +1158,12 @@ const checkIfDataExists = async (type, req, res, next) => {
       const {
         username
       } = req.body;
+
+      if (username === undefined) {
+        const er = _codes__WEBPACK_IMPORTED_MODULE_1__["userCode"].err.usernameIsNotSpecified;
+        return res.status(404).send(`${er.code} - ${er.description}`);
+      }
+
       result = await User.find({
         username
       });
@@ -1070,6 +1173,25 @@ const checkIfDataExists = async (type, req, res, next) => {
       break;
 
     case 'token':
+      const Token = mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.model('Token');
+      const {
+        token
+      } = req.body;
+
+      if (token === undefined) {
+        const er = _codes__WEBPACK_IMPORTED_MODULE_1__["userCode"].err.tokenIsNotSpecified;
+        return res.status(404).send(`${er.code} - ${er.description}`);
+      }
+
+      result = await Token.find({
+        token
+      });
+      error = _objectSpread({}, _codes__WEBPACK_IMPORTED_MODULE_1__["userCode"].err.tokenExists, {
+        data: ''
+      });
+      break;
+
+    case 'tokenBool':
       result = await User.find({
         token: req
       });
@@ -1105,16 +1227,16 @@ const checkIfDataExists = async (type, req, res, next) => {
 
 /***/ }),
 
-/***/ "./src/routes/users/middlewares/helpers/index.js":
-/*!*******************************************************!*\
-  !*** ./src/routes/users/middlewares/helpers/index.js ***!
-  \*******************************************************/
+/***/ "./src/routes/users/helpers/index.js":
+/*!*******************************************!*\
+  !*** ./src/routes/users/helpers/index.js ***!
+  \*******************************************/
 /*! exports provided: checkIfDataExists */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _checkIfDataExists__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./checkIfDataExists */ "./src/routes/users/middlewares/helpers/checkIfDataExists.js");
+/* harmony import */ var _checkIfDataExists__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./checkIfDataExists */ "./src/routes/users/helpers/checkIfDataExists.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "checkIfDataExists", function() { return _checkIfDataExists__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
 
@@ -1122,11 +1244,48 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/routes/users/index.js":
+/*!***********************************!*\
+  !*** ./src/routes/users/index.js ***!
+  \***********************************/
+/*! exports provided: UsersRoute, initializeRoute */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./users */ "./src/routes/users/users.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UsersRoute", function() { return _users__WEBPACK_IMPORTED_MODULE_0__["UsersRoute"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "initializeRoute", function() { return _users__WEBPACK_IMPORTED_MODULE_0__["initializeRoute"]; });
+
+
+
+/***/ }),
+
+/***/ "./src/routes/users/middlewares/deleteUser.js":
+/*!****************************************************!*\
+  !*** ./src/routes/users/middlewares/deleteUser.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
+ // mdl appelé en delete sur /users/admin
+
+const deleteUser = () => {};
+
+/* harmony default export */ __webpack_exports__["default"] = (deleteUser);
+
+/***/ }),
+
 /***/ "./src/routes/users/middlewares/index.js":
 /*!***********************************************!*\
   !*** ./src/routes/users/middlewares/index.js ***!
   \***********************************************/
-/*! exports provided: newUser, modifyUser, deleteUser, auth */
+/*! exports provided: newUser, modifyUser, deleteUser */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1139,10 +1298,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _newUser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./newUser */ "./src/routes/users/middlewares/newUser.js");
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "newUser", function() { return _newUser__WEBPACK_IMPORTED_MODULE_2__; });
-/* harmony import */ var _authentification__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./authentification */ "./src/routes/users/middlewares/authentification.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "auth", function() { return _authentification__WEBPACK_IMPORTED_MODULE_3__["default"]; });
-
-
 
 
 
@@ -1188,7 +1343,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! crypto */ "crypto");
 /* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../codes */ "./src/codes/index.js");
-/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helpers */ "./src/routes/users/middlewares/helpers/index.js");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../helpers */ "./src/routes/users/helpers/index.js");
 
 
 
@@ -1205,10 +1360,36 @@ const register = async (req, res, next) => {
     email,
     password
   } = req.body;
+
+  if (lastname === undefined) {
+    const er = _codes__WEBPACK_IMPORTED_MODULE_3__["userCode"].err.lastnameIsNotSpecified;
+    return res.status(404).send(`${er.code} - ${er.description}`);
+  }
+
+  if (name === undefined) {
+    const er = _codes__WEBPACK_IMPORTED_MODULE_3__["userCode"].err.nameIsNotSpecified;
+    return res.status(404).send(`${er.code} - ${er.description}`);
+  }
+
+  if (username === undefined) {
+    const er = _codes__WEBPACK_IMPORTED_MODULE_3__["userCode"].err.usernameIsNotSpecified;
+    return res.status(404).send(`${er.code} - ${er.description}`);
+  }
+
+  if (email === undefined) {
+    const er = _codes__WEBPACK_IMPORTED_MODULE_3__["userCode"].err.emailIsNotSpecified;
+    return res.status(404).send(`${er.code} - ${er.description}`);
+  }
+
+  if (password === undefined) {
+    const er = _codes__WEBPACK_IMPORTED_MODULE_3__["userCode"].err.passwordIsNotSpecified;
+    return res.status(404).send(`${er.code} - ${er.description}`);
+  }
+
   let token = crypto__WEBPACK_IMPORTED_MODULE_2___default.a.randomBytes(32).toString('hex');
   let i = 0;
 
-  while ((await Object(_helpers__WEBPACK_IMPORTED_MODULE_4__["checkIfDataExists"])('token', token)) && i < 100) {
+  while ((await Object(_helpers__WEBPACK_IMPORTED_MODULE_4__["checkIfDataExists"])('tokenBool', token)) && i < 100) {
     token = crypto__WEBPACK_IMPORTED_MODULE_2___default.a.randomBytes(32).toString('hex');
     i++;
   }
@@ -1220,8 +1401,7 @@ const register = async (req, res, next) => {
     username,
     email,
     token,
-    password: safePwd,
-    isAdmin: false
+    password: safePwd
   });
   user.save((err, account) => {
     if (err) {
@@ -1261,16 +1441,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _middlewares__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./middlewares */ "./src/routes/users/middlewares/index.js");
+/* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./admin */ "./src/routes/users/admin/index.js");
  //import des middlewares
+
 
  //instanciation de la route
 
 const UsersRoute = express__WEBPACK_IMPORTED_MODULE_0___default.a.Router();
 const initializeRoute = async () => {
-  UsersRoute.use('/admin', _middlewares__WEBPACK_IMPORTED_MODULE_1__["auth"]);
-  UsersRoute.post('/admin', _middlewares__WEBPACK_IMPORTED_MODULE_1__["newUser"].isMailOk, _middlewares__WEBPACK_IMPORTED_MODULE_1__["newUser"].isUsernameOk, _middlewares__WEBPACK_IMPORTED_MODULE_1__["newUser"].register);
-  UsersRoute.delete('/admin', _middlewares__WEBPACK_IMPORTED_MODULE_1__["deleteUser"]);
-  UsersRoute.put('/admin', _middlewares__WEBPACK_IMPORTED_MODULE_1__["modifyUser"]);
+  UsersRoute.post('/', _middlewares__WEBPACK_IMPORTED_MODULE_1__["newUser"].isMailOk, _middlewares__WEBPACK_IMPORTED_MODULE_1__["newUser"].isUsernameOk, _middlewares__WEBPACK_IMPORTED_MODULE_1__["newUser"].register);
+  UsersRoute.delete('/', _middlewares__WEBPACK_IMPORTED_MODULE_1__["deleteUser"]);
+  UsersRoute.put('/', _middlewares__WEBPACK_IMPORTED_MODULE_1__["modifyUser"]);
+  UsersRoute.use('/admin', _admin__WEBPACK_IMPORTED_MODULE_2__["auth"]);
+  UsersRoute.post('/admin', _admin__WEBPACK_IMPORTED_MODULE_2__["newToken"].isTokenOk, _admin__WEBPACK_IMPORTED_MODULE_2__["newToken"].addToken);
+  UsersRoute.get('/admin', _admin__WEBPACK_IMPORTED_MODULE_2__["getUsers"]);
 };
 
 /***/ }),

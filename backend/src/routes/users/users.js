@@ -2,12 +2,12 @@ import express from 'express'
 
 //import des middlewares
 import * as mdl from './middlewares'
+import * as admin from './admin'
 
 //instanciation de la route
 export const UsersRoute = express.Router()
 
 export const initializeRoute = async () => {
-  UsersRoute.use('/admin', mdl.auth)
   UsersRoute.post('/',
     mdl.newUser.isMailOk,
     mdl.newUser.isUsernameOk,
@@ -15,4 +15,14 @@ export const initializeRoute = async () => {
   )
   UsersRoute.delete('/', mdl.deleteUser)
   UsersRoute.put('/', mdl.modifyUser)
+
+
+  UsersRoute.use('/admin', admin.auth)
+  UsersRoute.post('/admin',
+    admin.newToken.isTokenOk,
+    admin.newToken.addToken,
+  )
+  UsersRoute.get('/admin',
+    admin.getUsers,
+  )
 }

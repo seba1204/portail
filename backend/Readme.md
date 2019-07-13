@@ -70,7 +70,7 @@ Ajouter le token d'un utilisateur à la db
 - Optional :
   * isAdmin (default false)
   * isAllowed (default true)
-  
+
 Ex :
 ```js
 {
@@ -79,7 +79,27 @@ Ex :
 ```
 
 #### GET
-retourne la liste de tous les utilisateurs
+retourne la liste de tous les utilisateurs si aucun username n'est passé dans le body
+
+Ex :
+```js
+{
+  usernames: ['seba12', 'tipi']
+}
+```
+
+Ex :
+```js
+{
+  usernames: ['seba12']
+}
+```
+
+Ex :
+```js
+{
+}
+```
 
 #### PUT
 modifie les droits d'un utilisateur

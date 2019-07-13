@@ -44,6 +44,7 @@ const startDB = async () => {
   //on définit les schémas de la bdd
   mongoose.model('User', schemas.usersSchema)
   mongoose.model('History', schemas.historySchema)
+  mongoose.model('Token', schemas.tokenSchema)
 
   //on lance et on attend la connexion à la base
   await (mongoose.connect(url, options, _mongooseConnectLogResult))
