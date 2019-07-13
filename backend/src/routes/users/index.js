@@ -1,1 +1,1 @@
-export { default } from './users'
+export { UsersRoute, initializeRoute } from './users'

@@ -1,5 +1,6 @@
 import deleteUser from './deleteUser'
 import modifyUser from './modifyUser'
-import newUser from './newUser'
+import * as newUser from './newUser'
+import auth from './authentification'
 
-export { newUser, modifyUser, deleteUser }
+export { newUser, modifyUser, deleteUser, auth }

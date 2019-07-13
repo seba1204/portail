@@ -1,1 +1,1 @@
-export { default } from './gate'
+export { GateRoute, initializeRoute } from './gate'

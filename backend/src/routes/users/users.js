@@ -7,7 +7,12 @@ import * as mdl from './middlewares'
 export const UsersRoute = express.Router()
 
 export const initializeRoute = async () => {
-  UsersRoute.post('/admin', mdl.newUser)
+  UsersRoute.use('/admin', mdl.auth)
+  UsersRoute.post('/admin',
+    mdl.newUser.isMailOk,
+    mdl.newUser.isUsernameOk,
+    mdl.newUser.register
+  )
   UsersRoute.delete('/admin', mdl.deleteUser)
   UsersRoute.put('/admin', mdl.modifyUser)
 }

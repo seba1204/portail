@@ -9,7 +9,7 @@ In the Headers :
 {
 	'Content-Type': 'application/json',
 	Accept: 'application/json',
-	Authorization: '7f5056dcedef4a3260eef5073b5efb438iXQThhAtLmLrJCIrzg9WdNtYQyeHFBg1YWSEbtIjq4GLt02z2IJjUyBPqhA8tPg',
+	token: '452976146',
 }
 ```
 #### POST

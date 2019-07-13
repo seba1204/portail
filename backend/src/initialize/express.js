@@ -17,6 +17,7 @@ const startServ = async () => {
 
   //connection des routes au SERVER_PORT
   app.use('/gate', rt.GateRoute)
+  app.use('/users', rt.UsersRoute)
 
 
   //lancement des routes /!\ doit être lancé après la connexion à la base de donnée, sinon les schémas ne seront pas définis

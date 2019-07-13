@@ -1,4 +1,4 @@
-import * as init from './helpers/initialize'
+import * as init from './initialize'
 
 //On démarre les différents services
 init.setEnvVar()

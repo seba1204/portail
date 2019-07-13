@@ -4,8 +4,10 @@ const usersSchema = new mongoose.Schema({
   lastname: String,
   name: String,
   username:{type:String, unique:true},
+  email:{type:String, unique:true},
   password: String,
-  token: Number,
+  token: String,
+  isAdmin: Boolean,
 }, {versionKey: false }, {collection: 'users'})
 
 export default usersSchema

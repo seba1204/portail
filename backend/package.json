@@ -4,7 +4,7 @@
   "description": "backend of my open-gate server",
   "main": "index.js",
   "scripts": {
-    "start": "backpack"
+    "start": "SET NODE_ENV=development&& backpack dev"
   },
   "author": "chap",
   "license": "ISC",

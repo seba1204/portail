@@ -1,4 +1,5 @@
+import setEnvVar from './EnvVar'
 import startDB from './mongo'
 import startServ from './express'
 
-export {startDB, startServ}
+export {setEnvVar, startDB, startServ}
