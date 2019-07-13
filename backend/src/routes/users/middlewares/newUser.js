@@ -21,8 +21,7 @@ export const register = async(req, res, next) =>{
   const safePwd = crypto.createHash('sha256').update(password).digest('hex')
   const user = new mongoose.model('User')({
     lastname, name, username, email, token,
-    password: safePwd,
-    isAdmin: false,
+    password: safePwd
   })
   user.save((err, account) => {
     if (err){

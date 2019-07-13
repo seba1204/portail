@@ -8,11 +8,11 @@ export const UsersRoute = express.Router()
 
 export const initializeRoute = async () => {
   UsersRoute.use('/admin', mdl.auth)
-  UsersRoute.post('/admin',
+  UsersRoute.post('/',
     mdl.newUser.isMailOk,
     mdl.newUser.isUsernameOk,
     mdl.newUser.register
   )
-  UsersRoute.delete('/admin', mdl.deleteUser)
-  UsersRoute.put('/admin', mdl.modifyUser)
+  UsersRoute.delete('/', mdl.deleteUser)
+  UsersRoute.put('/', mdl.modifyUser)
 }

@@ -3,15 +3,7 @@
 ## /gate
 
 ## /users
-### /admin
-```js
-In the Headers :
-{
-	'Content-Type': 'application/json',
-	Accept: 'application/json',
-	token: '452976146',
-}
-```
+### /
 #### POST
 ##### headers
 CF admin headers
@@ -60,3 +52,32 @@ For example :
   change: {password: '**************'}
 }
 ```
+
+
+### /admin
+```js
+In the Headers :
+{
+	'Content-Type': 'application/json',
+	Accept: 'application/json',
+	token: '452976146',
+}
+```
+#### POST
+Ajouter le token d'un utilisateur à la db
+##### body
+Required : token
+Optional : 	- isAdmin (default false)
+						- isAllowed (default true)
+Ex : 
+```js
+{
+  token: '452976146'
+}
+```
+
+#### GET
+retourne la liste de tous les utilisateurs
+
+#### PUT
+modifie les droits d'un utilisateur
