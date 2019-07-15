@@ -100,6 +100,18 @@ Get all usernames :
 {
 }
 ```
+Response :
+```js
+{
+  "lastname": "Sébastien",
+  "name": "PONT",
+  "username": "seba12",
+  "email": "seba12.04@orange.fr",
+  "isAdmin": true,
+  "isAllowed": true
+}
+```
+
 
 #### PUT
 modifie les droits d'un utilisateur

@@ -1,6 +1,6 @@
 import log from 'my-own-logger' // logger
 import mongoose from 'mongoose'
-import * as schemas from '../database/schemas'
+import initializeSchema from '../database/schemas'
 
 const startDB = async () => {
   //on importe les variables environnement préalablement définies
@@ -42,9 +42,7 @@ const startDB = async () => {
   })
 
   //on définit les schémas de la bdd
-  mongoose.model('User', schemas.usersSchema)
-  mongoose.model('History', schemas.historySchema)
-  mongoose.model('Token', schemas.tokenSchema)
+  await initializeSchema()
 
   //on lance et on attend la connexion à la base
   await (mongoose.connect(url, options, _mongooseConnectLogResult))

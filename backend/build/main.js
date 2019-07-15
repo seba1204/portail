@@ -308,60 +308,10 @@ const DEFAULT_TOKEN = "8637104155366878";
 
 /***/ }),
 
-/***/ "./src/database/schemas/history.js":
-/*!*****************************************!*\
-  !*** ./src/database/schemas/history.js ***!
-  \*****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
-
-const historySchema = new mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema({
-  token: String,
-  date: Date,
-  action: String
-}, {
-  versionKey: false
-}, {
-  collection: 'history'
-});
-/* harmony default export */ __webpack_exports__["default"] = (historySchema);
-
-/***/ }),
-
 /***/ "./src/database/schemas/index.js":
 /*!***************************************!*\
   !*** ./src/database/schemas/index.js ***!
   \***************************************/
-/*! exports provided: usersSchema, historySchema, tokenSchema */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./users */ "./src/database/schemas/users.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usersSchema", function() { return _users__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
-/* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./history */ "./src/database/schemas/history.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "historySchema", function() { return _history__WEBPACK_IMPORTED_MODULE_1__["default"]; });
-
-/* harmony import */ var _tokens__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tokens */ "./src/database/schemas/tokens.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "tokenSchema", function() { return _tokens__WEBPACK_IMPORTED_MODULE_2__["default"]; });
-
-
-
-
-
-
-/***/ }),
-
-/***/ "./src/database/schemas/tokens.js":
-/*!****************************************!*\
-  !*** ./src/database/schemas/tokens.js ***!
-  \****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -370,53 +320,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
 /* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
 
-const tokenSchema = new mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema({
-  token: {
-    type: String,
-    unique: true
-  },
-  isAdmin: Boolean,
-  isAllowed: Boolean
-}, {
-  versionKey: false
-}, {
-  collection: 'tokens'
-});
-/* harmony default export */ __webpack_exports__["default"] = (tokenSchema);
+const Schema = mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema;
 
-/***/ }),
+const initializeSchema = async () => {
+  const usersSchema = new Schema({
+    lastname: String,
+    name: String,
+    username: {
+      type: String,
+      unique: true
+    },
+    email: {
+      type: String,
+      unique: true
+    },
+    password: String,
+    token: {
+      type: Schema.Types.ObjectId,
+      ref: 'Token'
+    }
+  }, {
+    versionKey: false
+  }, {
+    collection: 'users'
+  });
+  const tokenSchema = new Schema({
+    token: {
+      type: String,
+      unique: true
+    },
+    isAdmin: Boolean,
+    isAllowed: Boolean
+  }, {
+    versionKey: false
+  }, {
+    collection: 'users'
+  });
+  const User = mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.model('User', usersSchema);
+  const Token = mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.model('Token', tokenSchema);
+};
 
-/***/ "./src/database/schemas/users.js":
-/*!***************************************!*\
-  !*** ./src/database/schemas/users.js ***!
-  \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
-
-const usersSchema = new mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema({
-  lastname: String,
-  name: String,
-  username: {
-    type: String,
-    unique: true
-  },
-  email: {
-    type: String,
-    unique: true
-  },
-  password: String,
-  token: String
-}, {
-  versionKey: false
-}, {
-  collection: 'users'
-});
-/* harmony default export */ __webpack_exports__["default"] = (usersSchema);
+/* harmony default export */ __webpack_exports__["default"] = (initializeSchema);
 
 /***/ }),
 
@@ -821,9 +765,7 @@ const startDB = async () => {
     });
   }); //on définit les schémas de la bdd
 
-  mongoose__WEBPACK_IMPORTED_MODULE_1___default.a.model('User', _database_schemas__WEBPACK_IMPORTED_MODULE_2__["usersSchema"]);
-  mongoose__WEBPACK_IMPORTED_MODULE_1___default.a.model('History', _database_schemas__WEBPACK_IMPORTED_MODULE_2__["historySchema"]);
-  mongoose__WEBPACK_IMPORTED_MODULE_1___default.a.model('Token', _database_schemas__WEBPACK_IMPORTED_MODULE_2__["tokenSchema"]); //on lance et on attend la connexion à la base
+  await Object(_database_schemas__WEBPACK_IMPORTED_MODULE_2__["default"])(); //on lance et on attend la connexion à la base
 
   await mongoose__WEBPACK_IMPORTED_MODULE_1___default.a.connect(url, options, _mongooseConnectLogResult);
 };
@@ -1023,11 +965,98 @@ const authentificate = (req, res, next) => {
 
 /***/ }),
 
+/***/ "./src/routes/users/admin/getUsers.js":
+/*!********************************************!*\
+  !*** ./src/routes/users/admin/getUsers.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var my_own_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! my-own-logger */ "my-own-logger");
+/* harmony import */ var my_own_logger__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(my_own_logger__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../codes */ "./src/codes/index.js");
+
+
+
+
+const getUsers = async (req, res, next) => {
+  const {
+    usernames
+  } = req.body;
+  const FullUser = mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.model('User');
+  let names = '';
+
+  if (usernames === undefined || !usernames.length) {
+    //return all users
+    names = new RegExp('/*');
+  } else {
+    //return all users asked
+    usernames.forEach(username => names += '|' + username);
+    names = new RegExp(names.slice(1));
+  } // User.find({username:names}, 'lastname name username email').populate().exec((err, data) => {
+
+
+  FullUser.find({
+    username: names
+  }, 'lastname name username email').populate('token').exec((err, data) => {
+    if (err) {
+      my_own_logger__WEBPACK_IMPORTED_MODULE_1___default()({
+        name: 'Mongoose',
+        status: 'err',
+        value: er
+      });
+      const erC = _codes__WEBPACK_IMPORTED_MODULE_2__["basicsCode"].err.internalError;
+      return res.status(200).send(`${erC.code} - ${erC.description} `);
+    }
+
+    try {
+      const results = data.map(user => {
+        const {
+          lastname,
+          name,
+          username,
+          email,
+          token
+        } = user;
+        const {
+          isAdmin,
+          isAllowed
+        } = token;
+        return {
+          lastname,
+          name,
+          username,
+          email,
+          isAdmin,
+          isAllowed
+        };
+      });
+      return res.status(200).send(results);
+    } catch (er) {
+      my_own_logger__WEBPACK_IMPORTED_MODULE_1___default()({
+        name: 'Mongoose',
+        status: 'err',
+        value: er
+      });
+      const erB = _codes__WEBPACK_IMPORTED_MODULE_2__["basicsCode"].err.internalError;
+      return res.status(500).send(`${erB.code} - ${erB.description}`);
+    }
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (getUsers);
+
+/***/ }),
+
 /***/ "./src/routes/users/admin/index.js":
 /*!*****************************************!*\
   !*** ./src/routes/users/admin/index.js ***!
   \*****************************************/
-/*! exports provided: auth, newToken */
+/*! exports provided: auth, newToken, getUsers */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1037,6 +1066,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _newToken__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./newToken */ "./src/routes/users/admin/newToken.js");
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "newToken", function() { return _newToken__WEBPACK_IMPORTED_MODULE_1__; });
+/* harmony import */ var _getUsers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getUsers */ "./src/routes/users/admin/getUsers.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getUsers", function() { return _getUsers__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+
 
 
 
