@@ -360,6 +360,7 @@ const _savePhoto = async photo => {
 };
 
 const takePhoto = async () => {
+  console.log("on prend la photo !");
   const camera = new node_raspistill__WEBPACK_IMPORTED_MODULE_2__["Raspistill"]();
   return await camera.takePhoto().then(photo => {
     _savePhoto(photo).catch(e => _codes__WEBPACK_IMPORTED_MODULE_5__["GPIOSCode"].err.savePhotoError);
@@ -643,7 +644,7 @@ const allImages = (req, res) => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (allImages);
-/* WEBPACK VAR INJECTION */}.call(this, "src/routes/images/middlewares"))
+/* WEBPACK VAR INJECTION */}.call(this, "src\\routes\\images\\middlewares"))
 
 /***/ }),
 
@@ -697,9 +698,7 @@ var mime = {
 
 const uniqueImage = async (req, res) => {
   const file = path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, `../../../images/${req.params.name}`);
-  console.log(file);
   const type = mime[path__WEBPACK_IMPORTED_MODULE_0___default.a.extname(file).slice(1)] || 'text/plain';
-  console.log(type);
   let s = fs__WEBPACK_IMPORTED_MODULE_1___default.a.createReadStream(file);
   s.on('open', function () {
     res.set('Content-Type', type);
@@ -712,7 +711,7 @@ const uniqueImage = async (req, res) => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (uniqueImage);
-/* WEBPACK VAR INJECTION */}.call(this, "src/routes/images/middlewares"))
+/* WEBPACK VAR INJECTION */}.call(this, "src\\routes\\images\\middlewares"))
 
 /***/ }),
 
@@ -945,12 +944,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 const postToogleGate = async (req, res) => {
   Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__["toogleGate"])().then(err => {
-    if (err) return res.status(500).send(err);
-    Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__["takePhoto"])().then(err => {
+    if (err) return res.status(500).send(err);else Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__["takePhoto"])().then(err => {
       if (err) return res.status(500).send(_objectSpread({}, err, {
         description: `${err.description} but gate is toogled !`
-      }));
-      return res.status(500).send(err);
+      }));else return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_1__["GPIOSCode"].relayOK);
     });
   });
 };
@@ -964,7 +961,7 @@ const postToogleGate = async (req, res) => {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/pi/repos/portail/backend/src/index.js */"./src/index.js");
+module.exports = __webpack_require__(/*! C:\Users\Chappie\Repos\portail\backend\src/index.js */"./src/index.js");
 
 
 /***/ }),

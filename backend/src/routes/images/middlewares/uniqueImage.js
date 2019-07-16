@@ -15,9 +15,7 @@ var mime = {
 
 const uniqueImage = async(req, res) => {
     const file = path.join(__dirname, `../../../images/${req.params.name}`)
-    console.log(file)
     const type = mime[path.extname(file).slice(1)] || 'text/plain';
-    console.log(type)
     let s = fs.createReadStream(file);
     s.on('open', function () {
         res.set('Content-Type', type);
