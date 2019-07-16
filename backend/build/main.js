@@ -381,7 +381,7 @@ const RELAIS = gpio__WEBPACK_IMPORTED_MODULE_0___default.a.export(4, {
   direction: gpio__WEBPACK_IMPORTED_MODULE_0___default.a.DIRECTION.OUT,
   interval: 500,
   ready: () => {
-    turnOn().then(setTimeout(turnOff(), 1000));
+    turnOn().then(setTimeout(turnOff(), 500));
   }
 }); // = on connecte le relais au GPIO 4, et on le configure en sortie
 

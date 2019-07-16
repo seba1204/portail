@@ -1,117 +1,22 @@
 # Api usage :
 
-## /gate
+## /toogleGate
+### POST
+just contact a relay to open the garden gate
+It also takes a picture of entrance and save it with date and hour as name
 
-## /users
-### /
-#### POST
-##### headers
-CF admin headers
-##### body
-```js
-{
-  lastname: 'Sébastien',
-  name: 'PONT',
-  username: 'seba12',
-  email: 'seba12.04@orange.fr',
-  password: '**********'
-}
-```
-#### DELETE
-##### headers
-CF admin headers
-##### body
-To delete a user you have to send in the body one of these possibilities :
-```js
-{
-  username: 'seba12',
-}
-```
-OR
-```js
-{
-  email: 'seba12.04@orange.fr',
-}
-```
-OR
-```js
-{
-  token: '452976146',
-}
-```
-#### PUT
-##### headers
-CF admin headers
-##### body
-To modify something on a user you have to specify an identifier (email, pseudo, or token) and what to change :
+## /images/all
+### GET
+returns a json file of all picture names available
 
-For example :
-```js
-{
-  identifier: {pseudo: 'seba12'},
-  change: {password: '**************'}
-}
-```
+returns an empty json if there is no images
 
+## /images/:name
+### GET
+return the picture corresponding to the name
 
-### /admin
-```js
-In the Headers :
-{
-	'Content-Type': 'application/json',
-	Accept: 'application/json',
-	token: '452976146',
-}
-```
-#### POST
-Ajouter le token d'un utilisateur à la db
-##### body
-- Required : token
-- Optional :
-  * isAdmin (default false)
-  * isAllowed (default true)
+return a 404 error if the image doesn't exist
 
-Ex :
-```js
-{
-  token: '452976146'
-}
-```
-
-#### GET
-retourne la liste de tous les utilisateurs si aucun username n'est passé dans le body
-
-With several usernames :
-```js
-{
-  usernames: ['seba12', 'tipi']
-}
-```
-
-With only one username :
-```js
-{
-  usernames: ['seba12']
-}
-```
-
-Get all usernames :
-```js
-{
-}
-```
-Response :
-```js
-{
-  "lastname": "Sébastien",
-  "name": "PONT",
-  "username": "seba12",
-  "email": "seba12.04@orange.fr",
-  "isAdmin": true,
-  "isAllowed": true
-}
-```
-
-
-#### PUT
-modifie les droits d'un utilisateur
+## TODO
+- trying to implement a mongodb database on a 32bit raspbian for my Raspberry Pi 3 B
+- try to see what signals to send to make the bell ring

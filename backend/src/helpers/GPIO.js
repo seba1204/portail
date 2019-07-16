@@ -3,7 +3,7 @@ import gpio from 'gpio'
 export const RELAIS = gpio.export(4, {
   direction: gpio.DIRECTION.OUT,
   interval: 500,
-  ready: () => {turnOn().then(setTimeout(turnOff(), 1000))}
+  ready: () => {turnOn().then(setTimeout(turnOff(), 500))}
 }) // = on connecte le relais au GPIO 4, et on le configure en sortie
 
 const turnOn = async () => {
@@ -12,4 +12,8 @@ const turnOn = async () => {
 }
 const turnOff = async () => {
   await RELAIS.reset()  // on éteint le relais
+}
+
+export const toogle = () => {
+  turnOn().then(setTimeout(turnOff(), 500))
 }
