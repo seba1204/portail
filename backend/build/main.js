@@ -348,6 +348,7 @@ const toogleGate = async () => {
 const _savePhoto = async photo => {
   const nowTime = date_and_time__WEBPACK_IMPORTED_MODULE_4___default.a.format(now, 'DD-MM-YYYY_HH-mm-ss');
   const path = `../image/${nowTime}.jpg`;
+  console.log(path);
   return await fs__WEBPACK_IMPORTED_MODULE_3___default.a.writeFile(path, photo, 'binary', err => {
     if (err) return err;
     my_own_logger__WEBPACK_IMPORTED_MODULE_1___default()({

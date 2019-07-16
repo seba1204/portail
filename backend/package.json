@@ -6,7 +6,7 @@
   "scripts": {
     "start": "run-script-os",
     "start:win32": "SET NODE_ENV=development&& backpack dev",
-    "start:darwin:linux": "NODE_ENV=development && backpack dev",
+    "start:darwin:linux": "export NODE_ENV=development && backpack dev",
     "start:default": "SET NODE_ENV=development&& backpack dev"
   },
   "author": "chap",
