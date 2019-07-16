@@ -37,7 +37,7 @@ const _savePhoto = async(photo) => {
 }
 export const takePhoto = async() => {
   console.log("on prend la photo !")
-  const camera = new Raspistill({time:0.5})
+  const camera = new Raspistill({time:1})
   return await camera.takePhoto()
   .then(photo => {
     console.log("on a pris la photo")
