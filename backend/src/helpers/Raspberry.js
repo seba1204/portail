@@ -27,8 +27,7 @@ export const toogleGate = async() => {
 
 const _savePhoto = async(photo) => {
   console.log("on enregistre la photo !")
-  console.log(path)
-  return await fs.writeFile(path, photo, 'binary', (err) => {
+  return await fs.writeFile(photo, 'binary', (err) => {
     if (err) return err
     log({name:'Raspberry', status: 'ok', value: 'photo taken and saved'})
   })
@@ -37,13 +36,13 @@ export const takePhoto = async() => {
   console.log("on prend la photo !")
   const now = new Date()
   const fileName = `${date.format(now, 'DD-MM-YYYY_HH-mm-ss')}`
-  const outputDir = `../image`
+  const outputDir = `../images`
   console.log(`fileName: ${fileName}\noutputDir: ${outputDir}`)
   const camera = new Raspistill({time:1, fileName, outputDir})
   return await camera.takePhoto()
   .then(photo => {
     console.log("on a pris la photo")
-    //_savePhoto(photo).catch(e => (GPIOSCode.err.savePhotoError))
+    _savePhoto(photo).catch(e => (GPIOSCode.err.savePhotoError))
   })
   .catch(e => (GPIOSCode.err.takePhotoError))
 }
