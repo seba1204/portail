@@ -18,6 +18,7 @@ const startServ = async () => {
   //connection des routes au sever
   app.use('/toogleGate', rt.GateRoute)
   app.use('/temp', rt.TempRoute)
+  app.use('/images', rt.ImagesRoute)
 
 
   //lancement des routes /!\ doit être lancé après la connexion à la base de donnée, sinon les schémas ne seront pas définis

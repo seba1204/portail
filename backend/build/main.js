@@ -514,7 +514,8 @@ const startServ = async () => {
   })); //connection des routes au sever
 
   app.use('/toogleGate', _routes__WEBPACK_IMPORTED_MODULE_3__["GateRoute"]);
-  app.use('/temp', _routes__WEBPACK_IMPORTED_MODULE_3__["TempRoute"]); //lancement des routes /!\ doit être lancé après la connexion à la base de donnée, sinon les schémas ne seront pas définis
+  app.use('/temp', _routes__WEBPACK_IMPORTED_MODULE_3__["TempRoute"]);
+  app.use('/images', _routes__WEBPACK_IMPORTED_MODULE_3__["ImagesRoute"]); //lancement des routes /!\ doit être lancé après la connexion à la base de donnée, sinon les schémas ne seront pas définis
 
   await _routes__WEBPACK_IMPORTED_MODULE_3__["initializeRoutes"](er => {
     if (er) {
@@ -566,11 +567,159 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/routes/images/images.js":
+/*!*************************************!*\
+  !*** ./src/routes/images/images.js ***!
+  \*************************************/
+/*! exports provided: ImageRoute, initializeRoute */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageRoute", function() { return ImageRoute; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initializeRoute", function() { return initializeRoute; });
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _middlewares__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./middlewares */ "./src/routes/images/middlewares/index.js");
+
+ //instanciation de la route
+
+const ImageRoute = express__WEBPACK_IMPORTED_MODULE_0___default.a.Router();
+const initializeRoute = async () => {
+  ImageRoute.get('/all', _middlewares__WEBPACK_IMPORTED_MODULE_1__["allImages"]);
+  ImageRoute.get('/:name', _middlewares__WEBPACK_IMPORTED_MODULE_1__["uniqueImage"]);
+};
+
+/***/ }),
+
+/***/ "./src/routes/images/index.js":
+/*!************************************!*\
+  !*** ./src/routes/images/index.js ***!
+  \************************************/
+/*! exports provided: ImageRoute, initializeRoute */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _images__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./images */ "./src/routes/images/images.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ImageRoute", function() { return _images__WEBPACK_IMPORTED_MODULE_0__["ImageRoute"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "initializeRoute", function() { return _images__WEBPACK_IMPORTED_MODULE_0__["initializeRoute"]; });
+
+
+
+/***/ }),
+
+/***/ "./src/routes/images/middlewares/allImages.js":
+/*!****************************************************!*\
+  !*** ./src/routes/images/middlewares/allImages.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(__dirname) {/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fs */ "fs");
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+const allImages = (req, res) => {
+  const directoryPath = path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, '../../../images');
+  fs__WEBPACK_IMPORTED_MODULE_1___default.a.readdir(directoryPath, (err, files) => {
+    if (err) return console.log('Unable to scan directory: ' + err);else {
+      return res.status(200).send(files.map(f => {
+        const size = fs__WEBPACK_IMPORTED_MODULE_1___default.a.statSync(path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, `../../../images/${f}`)).size / 1000.0;
+        return {
+          name: f,
+          size
+        };
+      }));
+    }
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (allImages);
+/* WEBPACK VAR INJECTION */}.call(this, "src\\routes\\images\\middlewares"))
+
+/***/ }),
+
+/***/ "./src/routes/images/middlewares/index.js":
+/*!************************************************!*\
+  !*** ./src/routes/images/middlewares/index.js ***!
+  \************************************************/
+/*! exports provided: allImages, uniqueImage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _allImages__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./allImages */ "./src/routes/images/middlewares/allImages.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "allImages", function() { return _allImages__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony import */ var _uniqueImage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./uniqueImage */ "./src/routes/images/middlewares/uniqueImage.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "uniqueImage", function() { return _uniqueImage__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+
+
+
+
+/***/ }),
+
+/***/ "./src/routes/images/middlewares/uniqueImage.js":
+/*!******************************************************!*\
+  !*** ./src/routes/images/middlewares/uniqueImage.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(__dirname) {/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fs */ "fs");
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var mime = {
+  html: 'text/html',
+  txt: 'text/plain',
+  css: 'text/css',
+  gif: 'image/gif',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  png: 'image/png',
+  svg: 'image/svg+xml',
+  js: 'application/javascript'
+};
+
+const uniqueImage = async (req, res) => {
+  const file = path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, `../../../images/${req.params.name}`);
+  console.log(file);
+  const type = mime[path__WEBPACK_IMPORTED_MODULE_0___default.a.extname(file).slice(1)] || 'text/plain';
+  console.log(type);
+  let s = fs__WEBPACK_IMPORTED_MODULE_1___default.a.createReadStream(file);
+  s.on('open', function () {
+    res.set('Content-Type', type);
+    s.pipe(res);
+  });
+  s.on('error', function () {
+    res.set('Content-Type', 'text/plain');
+    res.status(404).end('Not found');
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (uniqueImage);
+/* WEBPACK VAR INJECTION */}.call(this, "src\\routes\\images\\middlewares"))
+
+/***/ }),
+
 /***/ "./src/routes/index.js":
 /*!*****************************!*\
   !*** ./src/routes/index.js ***!
   \*****************************/
-/*! exports provided: initializeRoutes, GateRoute, TempRoute */
+/*! exports provided: initializeRoutes, GateRoute, TempRoute, ImagesRoute */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -578,13 +727,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initializeRoutes", function() { return initializeRoutes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GateRoute", function() { return GateRoute; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TempRoute", function() { return TempRoute; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImagesRoute", function() { return ImagesRoute; });
 /* harmony import */ var _toogleGate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toogleGate */ "./src/routes/toogleGate/index.js");
 /* harmony import */ var _temp__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./temp */ "./src/routes/temp/index.js");
+/* harmony import */ var _images__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./images */ "./src/routes/images/index.js");
 //on importe toutes les routes
+
 
 
 const GateRoute = _toogleGate__WEBPACK_IMPORTED_MODULE_0__["GateRoute"];
 const TempRoute = _temp__WEBPACK_IMPORTED_MODULE_1__["TempRoute"];
+const ImagesRoute = _images__WEBPACK_IMPORTED_MODULE_2__["ImageRoute"];
 
 const initializeRoutes = async callback => {
   let errors;
@@ -597,6 +750,12 @@ const initializeRoutes = async callback => {
 
   try {
     await _temp__WEBPACK_IMPORTED_MODULE_1__["initializeRoute"]();
+  } catch (error) {
+    errors += error;
+  }
+
+  try {
+    await _images__WEBPACK_IMPORTED_MODULE_2__["initializeRoute"]();
   } catch (error) {
     errors += error;
   }
@@ -883,6 +1042,17 @@ module.exports = require("my-own-logger");
 /***/ (function(module, exports) {
 
 module.exports = require("node-raspistill");
+
+/***/ }),
+
+/***/ "path":
+/*!***********************!*\
+  !*** external "path" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("path");
 
 /***/ }),
 
