@@ -344,27 +344,16 @@ const turnOff = async () => {
 const toogleGate = async () => {
   return await turnOn().then(setTimeout(turnOff, 1000)).catch(e => _codes__WEBPACK_IMPORTED_MODULE_5__["GPIOSCode"].err.toogleGateError);
 };
-
-const _savePhoto = async photo => {
-  const nowTime = date_and_time__WEBPACK_IMPORTED_MODULE_4___default.a.format(now, 'DD-MM-YYYY_HH-mm-ss');
-  const path = `../image/${nowTime}.jpg`;
-  console.log(path);
-  return await fs__WEBPACK_IMPORTED_MODULE_3___default.a.writeFile(path, photo, 'binary', err => {
-    if (err) return err;
-    my_own_logger__WEBPACK_IMPORTED_MODULE_1___default()({
-      name: 'Raspberry',
-      status: 'ok',
-      value: 'photo taken and saved'
-    });
-  });
-};
-
 const takePhoto = async () => {
-  console.log("on prend la photo !");
-  const camera = new node_raspistill__WEBPACK_IMPORTED_MODULE_2__["Raspistill"]();
-  return await camera.takePhoto().then(photo => {
-    _savePhoto(photo).catch(e => _codes__WEBPACK_IMPORTED_MODULE_5__["GPIOSCode"].err.savePhotoError);
-  }).catch(e => _codes__WEBPACK_IMPORTED_MODULE_5__["GPIOSCode"].err.takePhotoError);
+  const now = new Date();
+  const fileName = `${date_and_time__WEBPACK_IMPORTED_MODULE_4___default.a.format(now, 'DD-MM-YYYY_HH-mm-ss')}`;
+  const outputDir = `./src/images`;
+  const camera = new node_raspistill__WEBPACK_IMPORTED_MODULE_2__["Raspistill"]({
+    time: 1,
+    fileName,
+    outputDir
+  });
+  return await camera.takePhoto().then(p => {}).catch(e => _codes__WEBPACK_IMPORTED_MODULE_5__["GPIOSCode"].err.takePhotoError);
 };
 
 /***/ }),
@@ -934,20 +923,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postToogleGate", function() { return postToogleGate; });
 /* harmony import */ var _helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../helpers/Raspberry */ "./src/helpers/Raspberry.js");
 /* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../codes */ "./src/codes/index.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 const postToogleGate = async (req, res) => {
-  Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__["toogleGate"])().then(err => {
-    if (err) return res.status(500).send(err);else Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__["takePhoto"])().then(err => {
-      if (err) return res.status(500).send(_objectSpread({}, err, {
-        description: `${err.description} but gate is toogled !`
-      }));else return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_1__["GPIOSCode"].relayOK);
+  return Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__["toogleGate"])().then(err => {
+    if (err) return res.status(500).send(err);else return Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__["takePhoto"])().then(err => {
+      console.log('on sort de la fonction takePhoto');
+
+      if (err) {
+        console.log(`on a des erreurs : ${err}`); // return res.status(500).send({...err, description: `${err.description} but gate is toogled !`})
+
+        return res.status(500).send('erreur !');
+      } else {
+        console.log('on a aucune erreur');
+        return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_1__["GPIOSCode"].relayOK);
+      }
     });
   });
 };
