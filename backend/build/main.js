@@ -348,6 +348,7 @@ const toogleGate = async () => {
 const _savePhoto = async photo => {
   const nowTime = date_and_time__WEBPACK_IMPORTED_MODULE_4___default.a.format(now, 'DD-MM-YYYY_HH-mm-ss');
   const path = `../image/${nowTime}.jpg`;
+  console.log(path);
   return await fs__WEBPACK_IMPORTED_MODULE_3___default.a.writeFile(path, photo, 'binary', err => {
     if (err) return err;
     my_own_logger__WEBPACK_IMPORTED_MODULE_1___default()({
@@ -642,7 +643,7 @@ const allImages = (req, res) => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (allImages);
-/* WEBPACK VAR INJECTION */}.call(this, "src\\routes\\images\\middlewares"))
+/* WEBPACK VAR INJECTION */}.call(this, "src/routes/images/middlewares"))
 
 /***/ }),
 
@@ -711,7 +712,7 @@ const uniqueImage = async (req, res) => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (uniqueImage);
-/* WEBPACK VAR INJECTION */}.call(this, "src\\routes\\images\\middlewares"))
+/* WEBPACK VAR INJECTION */}.call(this, "src/routes/images/middlewares"))
 
 /***/ }),
 
@@ -963,7 +964,7 @@ const postToogleGate = async (req, res) => {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Chappie\Repos\portail\backend\src/index.js */"./src/index.js");
+module.exports = __webpack_require__(/*! /home/pi/repos/portail/backend/src/index.js */"./src/index.js");
 
 
 /***/ }),

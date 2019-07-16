@@ -28,6 +28,7 @@ export const toogleGate = async() => {
 const _savePhoto = async(photo) => {
   const nowTime = date.format(now, 'DD-MM-YYYY_HH-mm-ss')
   const path = `../image/${nowTime}.jpg`
+  console.log(path)
   return await fs.writeFile(path, photo, 'binary', (err) => {
     if (err) return err
     log({name:'Raspberry', status: 'ok', value: 'photo taken and saved'})
