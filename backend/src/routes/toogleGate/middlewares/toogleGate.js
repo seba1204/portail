@@ -7,9 +7,8 @@ export const postToogleGate = async(req, res) => {
   .then(err => {
     if (err) return res.status(500).send(err)
     else return takePhoto().then(err => {
-      console.log('on sort de la fonction takePhoto')
       if (err) return res.status(500).send({...err, description: `${err.description} but gate is toogled !`})
-      else return res.status(200).send(GPIOSCode.relayOK)
+      else return res.status(200).send(GPIOSCode.suc.relayOK)
     })
   })
 

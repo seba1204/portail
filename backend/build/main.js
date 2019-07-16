@@ -934,10 +934,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 const postToogleGate = async (req, res) => {
   return Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__["toogleGate"])().then(err => {
     if (err) return res.status(500).send(err);else return Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__["takePhoto"])().then(err => {
-      console.log('on sort de la fonction takePhoto');
       if (err) return res.status(500).send(_objectSpread({}, err, {
         description: `${err.description} but gate is toogled !`
-      }));else return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_1__["GPIOSCode"].relayOK);
+      }));else return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_1__["GPIOSCode"].suc.relayOK);
     });
   });
 };
