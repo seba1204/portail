@@ -1,8 +1,7 @@
-import * as ne from './NODE_ENV'
+import definePort from './NODE_ENV'
 
 const setEnvVar = async () => {
-  await ne.definePort() // le port du serveur
-  await ne.defineDB()// on crée les variables environnement pour gérer le database
+  await definePort() // le port du serveur
 }
 
 export default setEnvVar

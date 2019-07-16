@@ -14,10 +14,13 @@
   "dependencies": {
     "backpack-core": ">=0.8.4",
     "body-parser": "^1.19.0",
+    "date-and-time": "^0.8.1",
     "express": ">=4.17.1",
     "gpio": ">=0.2.10",
     "my-own-logger": "0.0.3",
+    "node-raspistill": "0.0.16",
     "npm": "^6.10.1",
+    "pi-temperature": "^2.1.0",
     "run-script-os": "^1.0.7"
   }
 }

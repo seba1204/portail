@@ -1,9 +1,9 @@
 //on importe toutes les routes
-import * as gate from './gate'
-import * as users from './users'
+import * as gate from './toogleGate'
+import * as temp from './temp'
 
-const UsersRoute = users.UsersRoute
 const GateRoute = gate.GateRoute
+const TempRoute = temp.TempRoute
 
 const initializeRoutes = async (callback) => {
   let errors
@@ -14,13 +14,12 @@ const initializeRoutes = async (callback) => {
     errors += error
   }
   try{
-    await (users.initializeRoute())
+    await (temp.initializeRoute())
   }
   catch (error){
     errors += error
   }
-
   !errors ? callback(errors) : callback()
 }
 
-export {initializeRoutes, GateRoute, UsersRoute }
+export { initializeRoutes, GateRoute, TempRoute }

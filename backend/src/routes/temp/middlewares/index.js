@@ -1,0 +1,1 @@
+export { getCPUTemp } from './getCPUTemp'

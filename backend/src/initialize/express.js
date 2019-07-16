@@ -15,9 +15,9 @@ const startServ = async () => {
   app.use(bodyParser.json()) //permet de recevoir un beau Json en body d'une requête
   app.use(bodyParser.urlencoded({ extended: true }))
 
-  //connection des routes au SERVER_PORT
-  app.use('/gate', rt.GateRoute)
-  app.use('/users', rt.UsersRoute)
+  //connection des routes au sever
+  app.use('/toogleGate', rt.GateRoute)
+  app.use('/temp', rt.TempRoute)
 
 
   //lancement des routes /!\ doit être lancé après la connexion à la base de donnée, sinon les schémas ne seront pas définis
