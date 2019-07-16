@@ -35,6 +35,7 @@ const _savePhoto = async(photo) => {
   })
 }
 export const takePhoto = async() => {
+  console.log("on prend la photo !")
   const camera = new Raspistill()
   return await camera.takePhoto()
   .then(photo => {_savePhoto(photo).catch(e => (GPIOSCode.err.savePhotoError))})
