@@ -41,7 +41,7 @@ export const takePhoto = async() => {
   return await camera.takePhoto()
   .then(photo => {
     console.log("on a pris la photo")
-    //_savePhoto(photo).catch(e => (GPIOSCode.err.savePhotoError))
+    _savePhoto(photo).catch(e => (GPIOSCode.err.savePhotoError))
   })
   .catch(e => (GPIOSCode.err.takePhotoError))
 }
