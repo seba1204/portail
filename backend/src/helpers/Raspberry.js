@@ -38,11 +38,12 @@ export const takePhoto = async() => {
   const now = new Date()
   const fileName = `${date.format(now, 'DD-MM-YYYY_HH-mm-ss')}`
   const outputDir = `../image`
+  console.log(`fileName: ${fileName}\noutputDir: ${outputDir}`)
   const camera = new Raspistill({time:1, fileName, outputDir})
   return await camera.takePhoto()
   .then(photo => {
     console.log("on a pris la photo")
-    _savePhoto(photo).catch(e => (GPIOSCode.err.savePhotoError))
+    //_savePhoto(photo).catch(e => (GPIOSCode.err.savePhotoError))
   })
   .catch(e => (GPIOSCode.err.takePhotoError))
 }
