@@ -26,6 +26,7 @@ export const toogleGate = async() => {
 }
 
 const _savePhoto = async(photo) => {
+  console.log("on enregistre la photo !")
   const nowTime = date.format(now, 'DD-MM-YYYY_HH-mm-ss')
   const path = `../image/${nowTime}.jpg`
   console.log(path)
