@@ -31,5 +31,5 @@ export const takePhoto = async() => {
   const camera = new Raspistill({time:1, fileName, outputDir})
   return await camera.takePhoto()
   .then(p => {})
-  .catch((e) => {return GPIOSCode.err.takePhotoError.description})
+  .catch(e => (GPIOSCode.err.takePhotoError.description))
 }
