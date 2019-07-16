@@ -353,7 +353,7 @@ const takePhoto = async () => {
     fileName,
     outputDir
   });
-  return await camera.takePhoto().catch(e => _codes__WEBPACK_IMPORTED_MODULE_5__["GPIOSCode"].err.takePhotoError);
+  return await camera.takePhoto().then(p => {}).catch(e => _codes__WEBPACK_IMPORTED_MODULE_5__["GPIOSCode"].err.takePhotoError);
 };
 
 /***/ }),
