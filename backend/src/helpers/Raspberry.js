@@ -35,6 +35,7 @@ const _savePhoto = async(photo) => {
 }
 export const takePhoto = async() => {
   console.log("on prend la photo !")
+  const now = new Date()
   const fileName = `${date.format(now, 'DD-MM-YYYY_HH-mm-ss')}`
   const outputDir = `../image`
   const camera = new Raspistill({time:1, fileName, outputDir})
