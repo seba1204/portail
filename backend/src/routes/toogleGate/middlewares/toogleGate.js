@@ -9,9 +9,11 @@ export const postToogleGate = async(req, res) => {
     else return takePhoto().then(err => {
       console.log('on sort de la fonction takePhoto')
       if (err) {
-        console.log('on a des erreurs')
-        return res.status(500).send({...err, description: `${err.description} but gate is toogled !`})
+        console.log(`on a des erreurs : ${err}`)
+        // return res.status(500).send({...err, description: `${err.description} but gate is toogled !`})
+        return res.status(500).send('erreur !')
       }
+
       else {
         console.log('on a aucune erreur')
         return res.status(200).send(GPIOSCode.relayOK)
