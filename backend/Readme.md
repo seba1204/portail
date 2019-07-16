@@ -2,28 +2,28 @@
 
 ## /toogleGate
 ### POST
-just contact a relay to open the garden gate
-It also takes a picture of entrance and save it with date and hour as name
+ - just contact a relay to open the garden gate
+ - It also takes a picture of entrance and save it with date and hour as name
 
 
 
 ## /images/all
 ### GET
-returns a json file of all picture names available
-returns an empty json if there is no images
+ - returns a json file of all picture names available
+ - returns an empty json if there is no images
 
 
 
 ## /images/:name
 ### GET
-return the picture corresponding to the name
-return a 404 error if the image doesn't exist
+ - return the picture corresponding to the name
+ - return a 404 error if the image doesn't exist
 
 
 
 ## /temp/cpu
 ### GET
-returns the current raspberry CPU temperature
+ - returns the current raspberry CPU temperature
 
 
 
