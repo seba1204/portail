@@ -1,6 +1,7 @@
 import log from 'my-own-logger' // logger
 import express from 'express' //pour le routage
 import bodyParser from 'body-parser' //pour parser un json
+import cors from 'cors'
 
 import * as rt from '../routes' // import des routes
 
@@ -14,6 +15,7 @@ const startServ = async () => {
   //paramétrage du serveur
   app.use(bodyParser.json()) //permet de recevoir un beau Json en body d'une requête
   app.use(bodyParser.urlencoded({ extended: true }))
+  app.use(cors())
 
   //connection des routes au sever
   app.use('/toogleGate', rt.GateRoute)

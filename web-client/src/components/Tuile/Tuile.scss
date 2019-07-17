@@ -1,0 +1,48 @@
+@import "../../constantes/styles/colors.scss";
+
+.tuile {
+
+  background-color: $blackDark;
+  color:$white;
+
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+
+  padding: 5px;
+  margin: 15px;
+
+  min-width: 200px;
+}
+.animated{
+  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  cursor: pointer;
+}
+.animated:hover {
+  -webkit-transform: scale(1.1, 1.1);
+  transform: scale(1.1, 1.1);
+}
+
+.tuile .header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding:5px;
+  margin:0;
+  border-radius: 10px 10px 0 0;
+  height: 24px;
+  line-height: 24px;
+}
+.tuile .underBar{
+  border-bottom: solid 1px $blackDarker;
+}
+.tuile .header h5{
+  text-align: center;
+  margin:0 0 0 8px;
+}
+.tuile .header .textCenter {
+  width:100%;
+}
+.tuile .header .x{
+  color:$red;
+}

@@ -482,12 +482,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var body_parser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! body-parser */ "body-parser");
 /* harmony import */ var body_parser__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(body_parser__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../routes */ "./src/routes/index.js");
+/* harmony import */ var cors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cors */ "cors");
+/* harmony import */ var cors__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(cors__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../routes */ "./src/routes/index.js");
  // logger
 
  //pour le routage
 
  //pour parser un json
+
 
  // import des routes
 
@@ -502,13 +505,14 @@ const startServ = async () => {
 
   app.use(body_parser__WEBPACK_IMPORTED_MODULE_2___default.a.urlencoded({
     extended: true
-  })); //connection des routes au sever
+  }));
+  app.use(cors__WEBPACK_IMPORTED_MODULE_3___default()()); //connection des routes au sever
 
-  app.use('/toogleGate', _routes__WEBPACK_IMPORTED_MODULE_3__["GateRoute"]);
-  app.use('/temp', _routes__WEBPACK_IMPORTED_MODULE_3__["TempRoute"]);
-  app.use('/images', _routes__WEBPACK_IMPORTED_MODULE_3__["ImagesRoute"]); //lancement des routes /!\ doit être lancé après la connexion à la base de donnée, sinon les schémas ne seront pas définis
+  app.use('/toogleGate', _routes__WEBPACK_IMPORTED_MODULE_4__["GateRoute"]);
+  app.use('/temp', _routes__WEBPACK_IMPORTED_MODULE_4__["TempRoute"]);
+  app.use('/images', _routes__WEBPACK_IMPORTED_MODULE_4__["ImagesRoute"]); //lancement des routes /!\ doit être lancé après la connexion à la base de donnée, sinon les schémas ne seront pas définis
 
-  await _routes__WEBPACK_IMPORTED_MODULE_3__["initializeRoutes"](er => {
+  await _routes__WEBPACK_IMPORTED_MODULE_4__["initializeRoutes"](er => {
     if (er) {
       my_own_logger__WEBPACK_IMPORTED_MODULE_0___default()({
         name: 'Routes',
@@ -963,6 +967,17 @@ module.exports = __webpack_require__(/*! C:\Users\Chappie\Repos\portail\backend\
 /***/ (function(module, exports) {
 
 module.exports = require("body-parser");
+
+/***/ }),
+
+/***/ "cors":
+/*!***********************!*\
+  !*** external "cors" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("cors");
 
 /***/ }),
 

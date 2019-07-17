@@ -1,0 +1,18 @@
+@import "../../constantes/styles/colors.scss";
+
+.topHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #21252B;
+}
+
+.topHeader .home{
+  margin: 2px 5px 0 12px;
+}
+
+.topHeader h1{
+  margin: 5px 0 5px 10px;
+  color: $white;
+}
