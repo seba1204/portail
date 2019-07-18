@@ -1,7 +1,6 @@
 import gpio from 'gpio'
 import log from 'my-own-logger'
 import {Raspistill} from 'node-raspistill'
-import fs from 'fs'
 import moment from 'moment'
 
 

@@ -14,6 +14,5 @@ export const getCPUTemp = async(req, res) => {
     console.log('on rentre enfin dans le catch...')
   } finally {
     log({name: 'Raspberry', status: 'err', value: RaspCode.err.readingCPUTempError.description})
-    return res.status(200).send(RaspCode.err.readingCPUTempError)
   }
 }
