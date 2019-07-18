@@ -2,6 +2,9 @@ import gpio from 'gpio'
 import log from 'my-own-logger'
 import {Raspistill} from 'node-raspistill'
 import moment from 'moment'
+import shell from 'shelljs'
+
+import { RaspCode } from '../codes'
 
 
 import { GPIOSCode } from '../codes'
@@ -37,4 +40,13 @@ export const takePhoto = async() => {
   } catch (e) {
     return GPIOSCode.err.takePhotoError
   }
+}
+
+export const restartRasp = async() => {
+  if (shell.exec('sudo reboot').code !== 0)
+    return RaspCode.err.rebootRasp
+}
+export const restartServer = async() => {
+  if (shell.exec('npm restart').code !== 0)
+    return RaspCode.err.rebootServer
 }

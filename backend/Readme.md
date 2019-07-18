@@ -28,14 +28,19 @@
  - returns the current raspberry CPU temperature
 
 
-
-
-
+## /command/restart/:service
+### POST
+- restart given service
+- services allowed :
+    - Raspberry
+    - Server
+---
 ## TODO
-- trying to implement a mongodb database on a 32bit raspbian for my Raspberry Pi 3 B
-- try to see what signals to send to make the bell ring
-- add a endpoint to delete images
-- add an endpoint to reboot Raspberry
-- add an endpoint to restart server
-- add error  'but gate is toogled !'
-- add an endpoint /images/:id?width=---
+- [ ] trying to implement a mongodb database on a 32bit raspbian for my Raspberry Pi 3 B
+- [ ] try to see what signals to send to make the bell ring
+- [x] fix cpu temp reading bug
+- [x] add an endpoint to restart server
+- [x] add an endpoint to restart raspberry
+- [ ] add error  'but gate is toogled !'
+- [ ] add an endpoint /images/:id?width=---
+- [x] add an endpoint to delete images
