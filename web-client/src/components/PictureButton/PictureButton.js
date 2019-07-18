@@ -6,14 +6,14 @@ import './PictureButton.css'
 const PictureButton = (props) => {
   return (
       <div className="PictureButton">
-        <button className="button" onClick={props.onclick}>
+        <button className="button" onClick={props.onClick}>
           {props.image}
         </button>
       </div>
     )
 }
 PictureButton.propTypes = {
-    onclick : PropTypes.func.isRequired,
+    onClick : PropTypes.func.isRequired,
     image: PropTypes.object.isRequired
 }
 

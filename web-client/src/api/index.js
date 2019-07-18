@@ -1,3 +1,4 @@
 import toogleGate from './toogleGate'
+import switchCodes from './switchCodes'
 
-export { toogleGate }
+export { toogleGate, switchCodes }

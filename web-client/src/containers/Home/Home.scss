@@ -1,18 +1,22 @@
 @import "../../constantes/styles/colors.scss";
-.container{
+.mainContainer{
   display: flex;
   flex-direction: column;
 }
-.container2{
-  display: flex;
-  flex-direction: row;
+.mainContainer .infos{
+  z-index: 9999;
 }
-
-.container2 p{
-  text-align: center;
-}
-.container2 .divButton{
+.contentContainer{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+
+}
+.toogleButton{
+  width:150px;
+  height: 50px;
+}
+.MyCard{
+  background-color: $black;
 }

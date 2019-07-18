@@ -14,7 +14,7 @@ class Header extends Component {
     return(
       <div className="topHeader">
         <div className="home">
-          <PictureButton image={<Icon.Home/>} onclick={this._goHome}/>
+          <PictureButton image={<Icon.Home/>} onClick={this._goHome}/>
         </div>
         <h1>Maison du mas !</h1>
       </div>
