@@ -1,0 +1,25 @@
+@import "./constantes/styles/colors.scss";
+
+// Your variable overrides
+$body-bg:  $blackDarker;
+$body-color: $white;
+
+
+$theme-colors: (
+  "primary":    $black,
+  "secondary":  $blackDark,
+  "success":    $green,
+  "info":       $blue,
+  "warning":    $yellow,
+  "danger":     $red,
+  "light":      $white,
+  "dark":       $black
+);
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Bootstrap and its default variables
+@import "../node_modules/bootstrap/scss/bootstrap";
