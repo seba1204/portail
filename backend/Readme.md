@@ -35,3 +35,4 @@
 - adding a endpoint to delete images
 - adding an endpoint to reboot Raspberry
 - adding a endpoint to restart server
+- adding error  but gate is toogled !
