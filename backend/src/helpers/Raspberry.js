@@ -31,7 +31,6 @@ export const takePhoto = async() => {
   const fileName = moment().format('DD-MM-YYYY HH-mm-ss')
   const outputDir = `./src/images`
   const camera = new Raspistill({time:1, fileName, outputDir})
-  return
   try {
     console.log("try")
     await camera.takePhoto()
