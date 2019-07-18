@@ -2,7 +2,8 @@ import gpio from 'gpio'
 import log from 'my-own-logger'
 import {Raspistill} from 'node-raspistill'
 import fs from 'fs'
-import date from 'date-and-time';
+import moment from 'moment'
+
 
 import { GPIOSCode } from '../codes'
 
@@ -27,11 +28,11 @@ export const toogleGate = async() => {
 export const takePhoto = async() => {
   log({name: 'Raspberry', status: 'wait', value: 'on prend une photo...'})
   const now = new Date()
-  const fileName = `${date.format(now, 'DD-MM-YYYY_HH-mm-ss')}`
+  const fileName = moment().format('DD-MM-YYYY HH-mm-ss')
   const outputDir = `./src/images`
   const camera = new Raspistill({time:1, fileName, outputDir})
+  log({name: 'Raspberry', status: 'reg', value: `name: ${fileName}\npath: ${outputDir}`})
   return await camera.takePhoto()
-  log({name: 'Raspberry', status: 'ok', value: 'la photo est prise !'})
-  .then(p => {})
+  .then(p => {log({name: 'Raspberry', status: 'ok', value: 'la photo est prise !'})})
   .catch(e => (GPIOSCode.err.takePhotoError))
 }

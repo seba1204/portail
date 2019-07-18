@@ -14,7 +14,7 @@ const _status = (code) =>{
 }
 
 const switchCodes = (code) => {
-  let message = moment().format('HH:mm:ss - ')
+  let message = moment().format('HH:mm:ss - ')  
   switch (code) {
     case 'e404':
         message += 'Erreur 404 ! '
