@@ -233,7 +233,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _errors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./errors */ "./src/codes/Raspberry/errors.js");
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "err", function() { return _errors__WEBPACK_IMPORTED_MODULE_0__; });
 /* harmony import */ var _success__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./success */ "./src/codes/Raspberry/success.js");
-/* harmony import */ var _success__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_success__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "suc", function() { return _success__WEBPACK_IMPORTED_MODULE_1__; });
 
 
@@ -245,10 +244,16 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************!*\
   !*** ./src/codes/Raspberry/success.js ***!
   \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: imageDeleted */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "imageDeleted", function() { return imageDeleted; });
+const imageDeleted = {
+  code: 's2',
+  description: 'image was deleted'
+};
 
 /***/ }),
 
@@ -310,12 +315,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var my_own_logger__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(my_own_logger__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var node_raspistill__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! node-raspistill */ "node-raspistill");
 /* harmony import */ var node_raspistill__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(node_raspistill__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! fs */ "fs");
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var date_and_time__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! date-and-time */ "date-and-time");
-/* harmony import */ var date_and_time__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(date_and_time__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../codes */ "./src/codes/index.js");
-
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "moment");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../codes */ "./src/codes/index.js");
 
 
 
@@ -342,18 +344,32 @@ const turnOff = async () => {
 };
 
 const toogleGate = async () => {
-  return await turnOn().then(setTimeout(turnOff, 1000)).catch(e => _codes__WEBPACK_IMPORTED_MODULE_5__["GPIOSCode"].err.toogleGateError);
+  return await turnOn().then(setTimeout(turnOff, 1000)).catch(e => _codes__WEBPACK_IMPORTED_MODULE_4__["GPIOSCode"].err.toogleGateError);
 };
 const takePhoto = async () => {
+  my_own_logger__WEBPACK_IMPORTED_MODULE_1___default()({
+    name: 'Raspberry',
+    status: 'wait',
+    value: 'on prend une photo...'
+  });
   const now = new Date();
-  const fileName = `${date_and_time__WEBPACK_IMPORTED_MODULE_4___default.a.format(now, 'DD-MM-YYYY_HH-mm-ss')}`;
+  const fileName = moment__WEBPACK_IMPORTED_MODULE_3___default()().format('DD-MM-YYYY HH-mm-ss');
   const outputDir = `./src/images`;
   const camera = new node_raspistill__WEBPACK_IMPORTED_MODULE_2__["Raspistill"]({
     time: 1,
     fileName,
     outputDir
   });
-  return await camera.takePhoto().then(p => {}).catch(e => _codes__WEBPACK_IMPORTED_MODULE_5__["GPIOSCode"].err.takePhotoError);
+
+  try {
+    await camera.takePhoto().then(my_own_logger__WEBPACK_IMPORTED_MODULE_1___default()({
+      name: 'Raspberry',
+      status: 'ok',
+      value: 'la photo est prise !'
+    })).catch(e => _codes__WEBPACK_IMPORTED_MODULE_4__["GPIOSCode"].err.takePhotoError);
+  } catch (e) {
+    return _codes__WEBPACK_IMPORTED_MODULE_4__["GPIOSCode"].err.takePhotoError;
+  }
 };
 
 /***/ }),
@@ -583,6 +599,7 @@ const ImageRoute = express__WEBPACK_IMPORTED_MODULE_0___default.a.Router();
 const initializeRoute = async () => {
   ImageRoute.get('/all', _middlewares__WEBPACK_IMPORTED_MODULE_1__["allImages"]);
   ImageRoute.get('/:name', _middlewares__WEBPACK_IMPORTED_MODULE_1__["uniqueImage"]);
+  ImageRoute.delete('/:name', _middlewares__WEBPACK_IMPORTED_MODULE_1__["deleteImage"]);
 };
 
 /***/ }),
@@ -641,11 +658,63 @@ const allImages = (req, res) => {
 
 /***/ }),
 
+/***/ "./src/routes/images/middlewares/deleteImage.js":
+/*!******************************************************!*\
+  !*** ./src/routes/images/middlewares/deleteImage.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(__dirname) {/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fs */ "fs");
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var my_own_logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! my-own-logger */ "my-own-logger");
+/* harmony import */ var my_own_logger__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(my_own_logger__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../codes */ "./src/codes/index.js");
+
+
+
+
+
+const deleteImage = (req, res) => {
+  my_own_logger__WEBPACK_IMPORTED_MODULE_2___default()({
+    name: 'Raspberry',
+    value: req.params.name,
+    status: 'ok'
+  });
+  const filePath = path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, '../../../images', req.params.name);
+
+  try {
+    fs__WEBPACK_IMPORTED_MODULE_1___default.a.unlinkSync(filePath);
+    my_own_logger__WEBPACK_IMPORTED_MODULE_2___default()({
+      name: 'Raspberry',
+      value: 'l\'image a été supprimée',
+      status: 'ok'
+    });
+    return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_3__["RaspCode"].suc.imageDeleted);
+  } catch (err) {
+    my_own_logger__WEBPACK_IMPORTED_MODULE_2___default()({
+      name: 'Raspberry',
+      status: 'err',
+      value: 'erreur lors de la suppression de l\'image'
+    });
+    return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_3__["basicsCode"].err.internalError);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (deleteImage);
+/* WEBPACK VAR INJECTION */}.call(this, "src/routes/images/middlewares"))
+
+/***/ }),
+
 /***/ "./src/routes/images/middlewares/index.js":
 /*!************************************************!*\
   !*** ./src/routes/images/middlewares/index.js ***!
   \************************************************/
-/*! exports provided: allImages, uniqueImage */
+/*! exports provided: allImages, uniqueImage, deleteImage */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -655,6 +724,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _uniqueImage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./uniqueImage */ "./src/routes/images/middlewares/uniqueImage.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "uniqueImage", function() { return _uniqueImage__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+/* harmony import */ var _deleteImage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./deleteImage */ "./src/routes/images/middlewares/deleteImage.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "deleteImage", function() { return _deleteImage__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
 
 
 
@@ -823,19 +896,31 @@ __webpack_require__.r(__webpack_exports__);
 const getCPUTemp = async (req, res) => {
   try {
     pi_temperature__WEBPACK_IMPORTED_MODULE_0___default.a.measure((err, temp) => {
-      if (err) return res.status(500).send(_codes__WEBPACK_IMPORTED_MODULE_2__["RaspCode"].err.readingCPUTempError);else return res.status(200).send({
-        temp
-      });
+      if (err) {
+        my_own_logger__WEBPACK_IMPORTED_MODULE_1___default()({
+          name: 'Raspberry',
+          status: 'err',
+          value: _codes__WEBPACK_IMPORTED_MODULE_2__["RaspCode"].err.readingCPUTempError.description
+        });
+        return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_2__["RaspCode"].err.readingCPUTempError);
+      } else {
+        my_own_logger__WEBPACK_IMPORTED_MODULE_1___default()({
+          name: 'Raspberry',
+          status: 'info',
+          value: `CPU temp : ${temp}`
+        });
+        return res.status(200).send({
+          temp
+        });
+      }
     });
   } catch (e) {
-    console.log('on rentre enfin dans le catch...');
-  } finally {
     my_own_logger__WEBPACK_IMPORTED_MODULE_1___default()({
       name: 'Raspberry',
       status: 'err',
       value: _codes__WEBPACK_IMPORTED_MODULE_2__["RaspCode"].err.readingCPUTempError.description
     });
-    return res.status(500).send(_codes__WEBPACK_IMPORTED_MODULE_2__["RaspCode"].err.readingCPUTempError);
+    return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_2__["RaspCode"].err.readingCPUTempError);
   }
 };
 
@@ -927,7 +1012,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postToogleGate", function() { return postToogleGate; });
 /* harmony import */ var _helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../helpers/Raspberry */ "./src/helpers/Raspberry.js");
 /* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../codes */ "./src/codes/index.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -937,8 +1022,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 const postToogleGate = async (req, res) => {
   return Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__["toogleGate"])().then(err => {
-    if (err) return res.status(500).send(err);else return Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__["takePhoto"])().then(err => {
-      if (err) return res.status(500).send(_objectSpread({}, err, {
+    if (err) return res.status(200).send(err);else return Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_0__["takePhoto"])().then(err => {
+      if (err) return res.status(200).send(_objectSpread({}, err, {
         description: `${err.description} but gate is toogled !`
       }));else return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_1__["GPIOSCode"].suc.relayOK);
     });
@@ -981,17 +1066,6 @@ module.exports = require("cors");
 
 /***/ }),
 
-/***/ "date-and-time":
-/*!********************************!*\
-  !*** external "date-and-time" ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("date-and-time");
-
-/***/ }),
-
 /***/ "express":
 /*!**************************!*\
   !*** external "express" ***!
@@ -1022,6 +1096,17 @@ module.exports = require("fs");
 /***/ (function(module, exports) {
 
 module.exports = require("gpio");
+
+/***/ }),
+
+/***/ "moment":
+/*!*************************!*\
+  !*** external "moment" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("moment");
 
 /***/ }),
 
