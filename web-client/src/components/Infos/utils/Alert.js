@@ -29,13 +29,13 @@ const Alert = (props) => {
     }
   }
   const _displayTitle = (title) => {
-    if (title.toString() !== '')
+    if (title === 'undefined')
       return <h5 className="alert-heading">{title}</h5>
   }
   return(
     <Expire delay={props.delay} onExpire={_onClose}>
       <AlertBoot color={_selectColor()} isOpen={true} toggle={_onClose}>
-        {_displayTitle(_displayTitle)}
+        {_displayTitle(props.title)}
         {props.message}
       </AlertBoot>
     </Expire>

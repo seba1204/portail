@@ -21,7 +21,6 @@ class Home extends Component {
   _toogleGate = async() => {
     this.setState({...this.state, loadingResponse: true})
     const resp = await toogleGate()
-    console.log(resp)
     let newInfo = switchCodes(resp.code)
     this._id++
     let {infos} = this.state
