@@ -10,7 +10,7 @@
   - /restart
     - /:service [POST]
 
-:point_right:**/toogleGate**
+**:point_right:/toogleGate**
 =====================
 ### POST
  - just contact a relay to open the garden gate
@@ -18,7 +18,7 @@
 
 
 
-:point_right:**/images/all**
+**:point_right:/images/all**
 =====================
 ### GET
  - returns a json file of all picture names available
@@ -26,7 +26,7 @@
 
 
 
-:point_right:**/images/:name**
+**:point_right:/images/:name**
 =====================
 ### GET
  - return the picture corresponding to the name
@@ -36,13 +36,13 @@
  - return a 404 error if the image doesn't exist
 
 
-:point_right:**/temp/cpu**
+**:point_right:/temp/cpu**
 =====================
 ### GET
  - returns the current raspberry CPU temperature
 
 
-:point_right:**/command/restart/:service**
+**:point_right:/command/restart/:service**
 =====================
 ### POST
 - restart given service
