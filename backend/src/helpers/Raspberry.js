@@ -30,9 +30,16 @@ export const takePhoto = async() => {
   const now = new Date()
   const fileName = moment().format('DD-MM-YYYY HH-mm-ss')
   const outputDir = `./src/images`
-  const camera = new Raspistill({time:1, fileName, outputDir})
-  log({name: 'Raspberry', status: 'reg', value: `name: ${fileName}\npath: ${outputDir}`})
-  return await camera.takePhoto()
-  .then(p => {log({name: 'Raspberry', status: 'ok', value: 'la photo est prise !'})})
-  .catch(e => (GPIOSCode.err.takePhotoError))
+  const camera = new Raspistill({time:1, fileName, outputDir, noFileSave: true})
+  log({name: 'Raspberry', status: 'reg', value: `\nname: ${fileName}\npath: ${outputDir}`})
+  return
+  try {
+    return await camera.takePhoto()
+    .then(p => {log({name: 'Raspberry', status: 'ok', value: 'la photo est prise !'})})
+    .catch(e => (GPIOSCode.err.takePhotoError))
+  } catch (e) {
+    console.log(e)
+  } finally {
+    return GPIOSCode.err.takePhotoError
+  }
 }
