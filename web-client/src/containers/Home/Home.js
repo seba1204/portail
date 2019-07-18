@@ -21,6 +21,7 @@ class Home extends Component {
   _toogleGate = async() => {
     this.setState({...this.state, loadingResponse: true})
     const resp = await toogleGate()
+    console.log(resp)
     let newInfo = switchCodes(resp.code)
     this._id++
     let {infos} = this.state
@@ -36,7 +37,6 @@ class Home extends Component {
     return this.state.infos
   }
   componentDidUpdate(){
-    console.log(`le composant a été updaté, il va être purgé : ${this._PurgeInfos}`)
     if (this._PurgeInfos){
       this._PurgeInfos = false
       this.setState({...this.state, infos: []})

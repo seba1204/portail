@@ -41,6 +41,7 @@ export const takePhoto = async() => {
     console.log(e)
   } finally {
     console.log("finally")
+    console.log(GPIOSCode.err.takePhotoError)
     return GPIOSCode.err.takePhotoError
   }
 }
