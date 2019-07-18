@@ -1,7 +1,7 @@
 # Api usage :
-- /toogleGate _[POST]_
+- /toogleGate_[POST]
 - /images
-  - /all _[GET]_
+  - /all [GET]
   - /:name [GET]
   - /:name [DELETE]
 - /temp
@@ -9,10 +9,8 @@
 - /command
   - /restart
     - /:service [POST]
-    
-:grin:
 
-**/toogleGate**
+:point_right:**/toogleGate**
 =====================
 ### POST
  - just contact a relay to open the garden gate
@@ -20,7 +18,7 @@
 
 
 
-**/images/all**
+:point_right:**/images/all**
 =====================
 ### GET
  - returns a json file of all picture names available
@@ -28,7 +26,7 @@
 
 
 
-**/images/:name**
+:point_right:**/images/:name**
 =====================
 ### GET
  - return the picture corresponding to the name
@@ -38,13 +36,13 @@
  - return a 404 error if the image doesn't exist
 
 
-**/temp/cpu**
+:point_right:**/temp/cpu**
 =====================
 ### GET
  - returns the current raspberry CPU temperature
 
 
-**/command/restart/:service**
+:point_right:**/command/restart/:service**
 =====================
 ### POST
 - restart given service
