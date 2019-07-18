@@ -18,7 +18,9 @@
 ### GET
  - return the picture corresponding to the name
  - return a 404 error if the image doesn't exist
-
+### DELETE
+ - delete the picture corresponding to the given name
+ - return a 404 error if the image doesn't exist
 
 
 ## /temp/cpu
@@ -35,5 +37,5 @@
 - add a endpoint to delete images
 - add an endpoint to reboot Raspberry
 - add an endpoint to restart server
-- add error  but gate is toogled !
+- add error  'but gate is toogled !'
 - add an endpoint /images/:id?width=---
