@@ -33,12 +33,15 @@ export const takePhoto = async() => {
   const camera = new Raspistill({time:1, fileName, outputDir})
   return
   try {
+    console.log("try")
     await camera.takePhoto()
-    .then(log({name: 'Raspberry', status: 'ok', value: 'la photo est prise !'}))
+    .then(console.log(".then"))
     .catch(e => (GPIOSCode.err.takePhotoError))
   } catch (e) {
+    console.log("catch")
     console.log(e)
   } finally {
+    console.log("finally")
     return GPIOSCode.err.takePhotoError
   }
 }
