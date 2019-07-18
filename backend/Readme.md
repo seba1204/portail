@@ -32,7 +32,8 @@
 ## TODO
 - trying to implement a mongodb database on a 32bit raspbian for my Raspberry Pi 3 B
 - try to see what signals to send to make the bell ring
-- adding a endpoint to delete images
-- adding an endpoint to reboot Raspberry
-- adding a endpoint to restart server
-- adding error  but gate is toogled !
+- add a endpoint to delete images
+- add an endpoint to reboot Raspberry
+- add an endpoint to restart server
+- add error  but gate is toogled !
+- add an endpoint /images/:id?width=---
