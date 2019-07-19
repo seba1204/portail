@@ -44,14 +44,13 @@ const uniqueImage = async(req, res) => {
         return res.status(200).send(basicsCode.err.wrongQuery)
     } else quality = 50
     if (quality!==0){
-      const transformer = sharp()
+      const transformer = sharp(file)
         .resize(options)
         .webp({quality})
         .toBuffer()
         .then(r=>r)
-      fs.createReadStream(file)
-        .pipe(transformer)
-        .pipe(res);
+      fs.createReadStream(transformer)
+        .pipe(res)
     }else {
       const s = fs.createReadStream(file)
 
