@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs'
+import sharp from 'sharp'
 
 var mime = {
     html: 'text/html',
@@ -14,12 +15,22 @@ var mime = {
 };
 
 const uniqueImage = async(req, res) => {
-    const file = path.join(__dirname, `../../../images/${req.params.name}`)
+    let file = path.join(__dirname, `../../../images/${req.params.name}`)
     const type = mime[path.extname(file).slice(1)] || 'text/plain';
-    let s = fs.createReadStream(file);
+    const { width, heigth } = req.query
+    const transformer = sharp()
+      .resize({
+        width: 200,
+        fit: sharp.fit.inside
+      })
+      .webp({
+        quality:100
+      });
+    const s = fs.createReadStream(file)
+
     s.on('open', function () {
         res.set('Content-Type', type);
-        s.pipe(res);
+        s.pipe(transformer).pipe(res)
     })
     s.on('error', function () {
         res.set('Content-Type', 'text/plain')

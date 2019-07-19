@@ -877,6 +877,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fs */ "fs");
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var sharp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sharp */ "sharp");
+/* harmony import */ var sharp__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sharp__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 var mime = {
@@ -892,12 +895,22 @@ var mime = {
 };
 
 const uniqueImage = async (req, res) => {
-  const file = path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, `../../../images/${req.params.name}`);
+  let file = path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, `../../../images/${req.params.name}`);
   const type = mime[path__WEBPACK_IMPORTED_MODULE_0___default.a.extname(file).slice(1)] || 'text/plain';
-  let s = fs__WEBPACK_IMPORTED_MODULE_1___default.a.createReadStream(file);
+  const {
+    width,
+    heigth
+  } = req.query;
+  const transformer = sharp__WEBPACK_IMPORTED_MODULE_2___default()().resize({
+    width: 200,
+    fit: sharp__WEBPACK_IMPORTED_MODULE_2___default.a.fit.inside
+  }).webp({
+    quality: 100
+  });
+  const s = fs__WEBPACK_IMPORTED_MODULE_1___default.a.createReadStream(file);
   s.on('open', function () {
     res.set('Content-Type', type);
-    s.pipe(res);
+    s.pipe(transformer).pipe(res);
   });
   s.on('error', function () {
     res.set('Content-Type', 'text/plain');
@@ -1287,6 +1300,17 @@ module.exports = require("path");
 /***/ (function(module, exports) {
 
 module.exports = require("pi-temperature");
+
+/***/ }),
+
+/***/ "sharp":
+/*!************************!*\
+  !*** external "sharp" ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("sharp");
 
 /***/ }),
 
