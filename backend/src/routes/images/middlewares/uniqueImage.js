@@ -49,7 +49,7 @@ const uniqueImage = async(req, res) => {
         .webp({quality})
         .toBuffer()
         .then(outputBuffer=>{
-          fs.createReadStream(outputBuffer)
+          const s = fs.createReadStream(outputBuffer)
           s.on('open', function () {
               res.set('Content-Type', type)
               s.pipe(res)
