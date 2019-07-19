@@ -66,5 +66,5 @@
 - [x] add an endpoint to restart server
 - [x] add an endpoint to restart raspberry
 - [ ] add error  'but gate is toogled !'
-- [ ] add an endpoint /images/:id?width=---
+- [x] add an endpoint /images/:id?width=500px
 - [x] add an endpoint to delete images
