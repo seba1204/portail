@@ -48,7 +48,17 @@ const uniqueImage = async(req, res) => {
         .resize(options)
         .webp({quality})
         .toBuffer()
-        .then(r=>r.pipe(res))
+        .then(outputBuffer=>{
+          fs.createReadStream(outputBuffer)
+          s.on('open', function () {
+              res.set('Content-Type', type)
+              s.pipe(res)
+          })
+          s.on('error', function () {
+              res.set('Content-Type', 'text/plain')
+              res.status(404).end(ImageCode.err.photoNotFound)
+          })
+        })
     }else {
       const s = fs.createReadStream(file)
 
