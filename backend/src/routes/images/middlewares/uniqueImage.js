@@ -53,7 +53,7 @@ const uniqueImage = async(req, res) => {
 
     s.on('open', function () {
         res.set('Content-Type', type);
-        s.pipe(transformer).pipe(res)
+        s.pipe(res)
     })
     s.on('error', function () {
         res.set('Content-Type', 'text/plain')
