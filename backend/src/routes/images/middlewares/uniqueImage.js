@@ -43,9 +43,6 @@ const uniqueImage = async(req, res) => {
       if(!help.isANumber(quality) || !help.isIn(quality, 0, 100))
         return res.status(200).send(basicsCode.err.wrongQuery)
     } else quality = 50
-      transformer = sharp()
-        .resize(options)
-        .webp({quality})
 
     const s = fs.createReadStream(file)
 
