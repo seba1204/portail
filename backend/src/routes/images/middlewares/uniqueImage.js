@@ -48,7 +48,7 @@ const uniqueImage = async(req, res) => {
       file=sharp(_path)
         .resize(options)
         .webp({quality})
-        .toBuffer()
+        .toBuffer(r => r)
     }
 
 
