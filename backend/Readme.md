@@ -24,9 +24,9 @@
  - returns a json file of all picture names available
  - returns an empty json if there is no images
 
- queries :
+
  | query       | type   | possible values    | default |
- |-------------|--------|--------------------|---------|
+ |-------------|--------|:------------------:|:-------:|
  | width (px)  | number | 1-5000             | 300     |
  | height (px) | number | 1-5000             |         |
  | quality     | number | 0-100 (0=original) | 50      |
