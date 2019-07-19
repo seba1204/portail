@@ -7,7 +7,10 @@
     "start": "run-script-os",
     "start:win32": "SET NODE_ENV=development&& backpack dev",
     "start:darwin:linux": "export NODE_ENV=development && backpack dev",
-    "start:default": "SET NODE_ENV=development&& backpack dev"
+    "start:default": "export NODE_ENV=development && backpack dev",
+    "restart:darwin:linux": "export NODE_ENV=development && backpack dev",
+    "restart:default": "export NODE_ENV=development && backpack dev",
+    "restart:win32": "SET NODE_ENV=development&& backpack dev"
   },
   "author": "chap",
   "license": "ISC",
@@ -18,10 +21,10 @@
     "express": ">=4.17.1",
     "gpio": ">=0.2.10",
     "moment": "^2.24.0",
-    "my-own-logger": ">=0.0.6",
+    "my-own-logger": "0.0.7",
     "node-raspistill": "0.0.16",
-    "npm": "^6.10.1",
     "pi-temperature": "^2.1.0",
-    "run-script-os": "^1.0.7"
+    "run-script-os": "^1.0.7",
+    "shelljs": "^0.8.3"
   }
 }

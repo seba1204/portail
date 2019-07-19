@@ -2,12 +2,14 @@
 import * as gate from './toogleGate'
 import * as temp from './temp'
 import * as images from './images'
+import * as command from './command'
 
-const GateRoute = gate.GateRoute
-const TempRoute = temp.TempRoute
-const ImagesRoute = images.ImageRoute
+export const GateRoute = gate.GateRoute
+export const TempRoute = temp.TempRoute
+export const ImagesRoute = images.ImageRoute
+export const CommandRoute = command.CommandRoute
 
-const initializeRoutes = async (callback) => {
+export const initializeRoutes = async (callback) => {
   let errors
   try{
     await (gate.initializeRoute())
@@ -27,7 +29,11 @@ const initializeRoutes = async (callback) => {
   catch (error){
     errors += error
   }
+  try{
+    await (command.initializeRoute())
+  }
+  catch (error){
+    errors += error
+  }
   !errors ? callback(errors) : callback()
 }
-
-export { initializeRoutes, GateRoute, TempRoute, ImagesRoute }

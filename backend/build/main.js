@@ -208,15 +208,30 @@ const relayOK = {
 /*!***************************************!*\
   !*** ./src/codes/Raspberry/errors.js ***!
   \***************************************/
-/*! exports provided: readingCPUTempError */
+/*! exports provided: readingCPUTempError, rebootRasp, rebootServer, serviceUnknow */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "readingCPUTempError", function() { return readingCPUTempError; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rebootRasp", function() { return rebootRasp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rebootServer", function() { return rebootServer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "serviceUnknow", function() { return serviceUnknow; });
 const readingCPUTempError = {
   code: 'e4',
   description: 'error during reading CPU temperature'
+};
+const rebootRasp = {
+  code: 'e5',
+  description: 'error during rebooting raspberry'
+};
+const rebootServer = {
+  code: 'e6',
+  description: 'error during rebooting server'
+};
+const serviceUnknow = {
+  code: 'e7',
+  description: 'this service is unknow (from post/restart/:service)'
 };
 
 /***/ }),
@@ -244,15 +259,25 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************!*\
   !*** ./src/codes/Raspberry/success.js ***!
   \****************************************/
-/*! exports provided: imageDeleted */
+/*! exports provided: imageDeleted, rebootRasp, rebootServer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "imageDeleted", function() { return imageDeleted; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rebootRasp", function() { return rebootRasp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rebootServer", function() { return rebootServer; });
 const imageDeleted = {
   code: 's2',
   description: 'image was deleted'
+};
+const rebootRasp = {
+  code: 's3',
+  description: 'raspberry was rebooted'
+};
+const rebootServer = {
+  code: 's4',
+  description: 'server was rebooted'
 };
 
 /***/ }),
@@ -301,7 +326,7 @@ const SERVER_PORT_PROD = "4957"; // port d'écoute du serveur en production
 /*!**********************************!*\
   !*** ./src/helpers/Raspberry.js ***!
   \**********************************/
-/*! exports provided: RELAIS, toogleGate, takePhoto */
+/*! exports provided: RELAIS, toogleGate, takePhoto, restartRasp, restartServer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -309,6 +334,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RELAIS", function() { return RELAIS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toogleGate", function() { return toogleGate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "takePhoto", function() { return takePhoto; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartRasp", function() { return restartRasp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartServer", function() { return restartServer; });
 /* harmony import */ var gpio__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gpio */ "gpio");
 /* harmony import */ var gpio__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(gpio__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var my_own_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! my-own-logger */ "my-own-logger");
@@ -317,7 +344,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var node_raspistill__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(node_raspistill__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "moment");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../codes */ "./src/codes/index.js");
+/* harmony import */ var shelljs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! shelljs */ "shelljs");
+/* harmony import */ var shelljs__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(shelljs__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../codes */ "./src/codes/index.js");
+
+
 
 
 
@@ -344,7 +375,7 @@ const turnOff = async () => {
 };
 
 const toogleGate = async () => {
-  return await turnOn().then(setTimeout(turnOff, 1000)).catch(e => _codes__WEBPACK_IMPORTED_MODULE_4__["GPIOSCode"].err.toogleGateError);
+  return await turnOn().then(setTimeout(turnOff, 1000)).catch(e => _codes__WEBPACK_IMPORTED_MODULE_5__["GPIOSCode"].err.toogleGateError);
 };
 const takePhoto = async () => {
   my_own_logger__WEBPACK_IMPORTED_MODULE_1___default()({
@@ -366,10 +397,16 @@ const takePhoto = async () => {
       name: 'Raspberry',
       status: 'ok',
       value: 'la photo est prise !'
-    })).catch(e => _codes__WEBPACK_IMPORTED_MODULE_4__["GPIOSCode"].err.takePhotoError);
+    })).catch(e => _codes__WEBPACK_IMPORTED_MODULE_5__["GPIOSCode"].err.takePhotoError);
   } catch (e) {
-    return _codes__WEBPACK_IMPORTED_MODULE_4__["GPIOSCode"].err.takePhotoError;
+    return _codes__WEBPACK_IMPORTED_MODULE_5__["GPIOSCode"].err.takePhotoError;
   }
+};
+const restartRasp = async () => {
+  if (shelljs__WEBPACK_IMPORTED_MODULE_4___default.a.exec('sudo reboot').code !== 0) return _codes__WEBPACK_IMPORTED_MODULE_5__["RaspCode"].err.rebootRasp;
+};
+const restartServer = async () => {
+  if (shelljs__WEBPACK_IMPORTED_MODULE_4___default.a.exec('npm restart').code !== 0) return _codes__WEBPACK_IMPORTED_MODULE_5__["RaspCode"].err.rebootServer;
 };
 
 /***/ }),
@@ -526,7 +563,8 @@ const startServ = async () => {
 
   app.use('/toogleGate', _routes__WEBPACK_IMPORTED_MODULE_4__["GateRoute"]);
   app.use('/temp', _routes__WEBPACK_IMPORTED_MODULE_4__["TempRoute"]);
-  app.use('/images', _routes__WEBPACK_IMPORTED_MODULE_4__["ImagesRoute"]); //lancement des routes /!\ doit être lancé après la connexion à la base de donnée, sinon les schémas ne seront pas définis
+  app.use('/images', _routes__WEBPACK_IMPORTED_MODULE_4__["ImagesRoute"]);
+  app.use('/command', _routes__WEBPACK_IMPORTED_MODULE_4__["CommandRoute"]); //lancement des routes /!\ doit être lancé après la connexion à la base de donnée, sinon les schémas ne seront pas définis
 
   await _routes__WEBPACK_IMPORTED_MODULE_4__["initializeRoutes"](er => {
     if (er) {
@@ -575,6 +613,102 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/***/ }),
+
+/***/ "./src/routes/command/command.js":
+/*!***************************************!*\
+  !*** ./src/routes/command/command.js ***!
+  \***************************************/
+/*! exports provided: CommandRoute, initializeRoute */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CommandRoute", function() { return CommandRoute; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initializeRoute", function() { return initializeRoute; });
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _middlewares__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./middlewares */ "./src/routes/command/middlewares/index.js");
+
+ //instanciation de la route
+
+const CommandRoute = express__WEBPACK_IMPORTED_MODULE_0___default.a.Router();
+const initializeRoute = async () => {
+  CommandRoute.post('/restart/:service', _middlewares__WEBPACK_IMPORTED_MODULE_1__["restartService"]);
+};
+
+/***/ }),
+
+/***/ "./src/routes/command/index.js":
+/*!*************************************!*\
+  !*** ./src/routes/command/index.js ***!
+  \*************************************/
+/*! exports provided: CommandRoute, initializeRoute */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _command__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./command */ "./src/routes/command/command.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CommandRoute", function() { return _command__WEBPACK_IMPORTED_MODULE_0__["CommandRoute"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "initializeRoute", function() { return _command__WEBPACK_IMPORTED_MODULE_0__["initializeRoute"]; });
+
+
+
+/***/ }),
+
+/***/ "./src/routes/command/middlewares/index.js":
+/*!*************************************************!*\
+  !*** ./src/routes/command/middlewares/index.js ***!
+  \*************************************************/
+/*! exports provided: restartService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _restartService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./restartService */ "./src/routes/command/middlewares/restartService.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "restartService", function() { return _restartService__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+
+
+
+/***/ }),
+
+/***/ "./src/routes/command/middlewares/restartService.js":
+/*!**********************************************************!*\
+  !*** ./src/routes/command/middlewares/restartService.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../codes */ "./src/codes/index.js");
+/* harmony import */ var _helpers_Raspberry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../helpers/Raspberry */ "./src/helpers/Raspberry.js");
+
+
+
+const restartService = (req, res) => {
+  switch (req.params.service) {
+    case 'Raspberry':
+      Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_1__["restartRasp"])().then(err => {
+        if (err) return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_0__["RaspCode"].err.rebootRasp);else return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_0__["RaspCode"].suc.rebootRasp);
+      });
+      break;
+
+    case 'Server':
+      Object(_helpers_Raspberry__WEBPACK_IMPORTED_MODULE_1__["restartServer"])().then(err => {
+        if (err) return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_0__["RaspCode"].err.rebootServer);else return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_0__["RaspCode"].suc.rebootServer);
+      });
+      break;
+
+    default:
+      res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_0__["RaspCode"].err.serviceUnknow);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (restartService);
 
 /***/ }),
 
@@ -680,11 +814,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const deleteImage = (req, res) => {
-  my_own_logger__WEBPACK_IMPORTED_MODULE_2___default()({
-    name: 'Raspberry',
-    value: req.params.name,
-    status: 'ok'
-  });
   const filePath = path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, '../../../images', req.params.name);
 
   try {
@@ -785,26 +914,29 @@ const uniqueImage = async (req, res) => {
 /*!*****************************!*\
   !*** ./src/routes/index.js ***!
   \*****************************/
-/*! exports provided: initializeRoutes, GateRoute, TempRoute, ImagesRoute */
+/*! exports provided: GateRoute, TempRoute, ImagesRoute, CommandRoute, initializeRoutes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initializeRoutes", function() { return initializeRoutes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GateRoute", function() { return GateRoute; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TempRoute", function() { return TempRoute; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImagesRoute", function() { return ImagesRoute; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CommandRoute", function() { return CommandRoute; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initializeRoutes", function() { return initializeRoutes; });
 /* harmony import */ var _toogleGate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toogleGate */ "./src/routes/toogleGate/index.js");
 /* harmony import */ var _temp__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./temp */ "./src/routes/temp/index.js");
 /* harmony import */ var _images__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./images */ "./src/routes/images/index.js");
+/* harmony import */ var _command__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./command */ "./src/routes/command/index.js");
 //on importe toutes les routes
+
 
 
 
 const GateRoute = _toogleGate__WEBPACK_IMPORTED_MODULE_0__["GateRoute"];
 const TempRoute = _temp__WEBPACK_IMPORTED_MODULE_1__["TempRoute"];
 const ImagesRoute = _images__WEBPACK_IMPORTED_MODULE_2__["ImageRoute"];
-
+const CommandRoute = _command__WEBPACK_IMPORTED_MODULE_3__["CommandRoute"];
 const initializeRoutes = async callback => {
   let errors;
 
@@ -826,10 +958,14 @@ const initializeRoutes = async callback => {
     errors += error;
   }
 
+  try {
+    await _command__WEBPACK_IMPORTED_MODULE_3__["initializeRoute"]();
+  } catch (error) {
+    errors += error;
+  }
+
   !errors ? callback(errors) : callback();
 };
-
-
 
 /***/ }),
 
@@ -1151,6 +1287,17 @@ module.exports = require("path");
 /***/ (function(module, exports) {
 
 module.exports = require("pi-temperature");
+
+/***/ }),
+
+/***/ "shelljs":
+/*!**************************!*\
+  !*** external "shelljs" ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("shelljs");
 
 /***/ })
 

@@ -4,7 +4,6 @@ import log from 'my-own-logger'
 import { basicsCode, RaspCode } from '../../../codes'
 
 const deleteImage = (req, res) => {
-  log({name:'Raspberry', value:req.params.name, status: 'ok'})
   const filePath = path.join(__dirname, '../../../images', req.params.name)
   try {
     fs.unlinkSync(filePath)
