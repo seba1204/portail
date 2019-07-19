@@ -17,11 +17,11 @@ var mime = {
 };
 
 const uniqueImage = async(req, res) => {
-    let _path = path.join(__dirname, `../../../images/${req.params.name}`)
+    let file = path.join(__dirname, `../../../images/${req.params.name}`)
     const type = mime[path.extname(file).slice(1)] || 'text/plain'
     let { width, height, quality } = req.query
     let options = {}
-    let file
+
     // on vérifie les paramètres !
     if (width !== undefined){
       width = Number(width)
@@ -43,13 +43,16 @@ const uniqueImage = async(req, res) => {
       if(!help.isANumber(quality) || !help.isIn(quality, 0, 100))
         return res.status(200).send(basicsCode.err.wrongQuery)
     } else quality = 50
-    if (quality!==0)
+    if (quality!==0){
+      const _path = file
       file=sharp(_path)
         .resize(options)
         .webp({quality})
         .toBuffer()
-    else file = _path
-    const s = fs.createReadStream(_path)
+    }
+
+
+    const s = fs.createReadStream(file)
 
     s.on('open', function () {
         res.set('Content-Type', type)
