@@ -209,39 +209,6 @@ const relayOK = {
 
 /***/ }),
 
-/***/ "./src/codes/Image/errors.js":
-/*!***********************************!*\
-  !*** ./src/codes/Image/errors.js ***!
-  \***********************************/
-/*! exports provided: photoNotFound */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "photoNotFound", function() { return photoNotFound; });
-const photoNotFound = {
-  code: 'e8',
-  description: 'photo was not found'
-};
-
-/***/ }),
-
-/***/ "./src/codes/Image/index.js":
-/*!**********************************!*\
-  !*** ./src/codes/Image/index.js ***!
-  \**********************************/
-/*! exports provided: err */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _errors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./errors */ "./src/codes/Image/errors.js");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "err", function() { return _errors__WEBPACK_IMPORTED_MODULE_0__; });
-
-
-
-/***/ }),
-
 /***/ "./src/codes/Raspberry/errors.js":
 /*!***************************************!*\
   !*** ./src/codes/Raspberry/errors.js ***!
@@ -320,6 +287,39 @@ const rebootServer = {
 
 /***/ }),
 
+/***/ "./src/codes/image/errors.js":
+/*!***********************************!*\
+  !*** ./src/codes/image/errors.js ***!
+  \***********************************/
+/*! exports provided: photoNotFound */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "photoNotFound", function() { return photoNotFound; });
+const photoNotFound = {
+  code: 'e8',
+  description: 'photo was not found'
+};
+
+/***/ }),
+
+/***/ "./src/codes/image/index.js":
+/*!**********************************!*\
+  !*** ./src/codes/image/index.js ***!
+  \**********************************/
+/*! exports provided: err */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _errors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./errors */ "./src/codes/image/errors.js");
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "err", function() { return _errors__WEBPACK_IMPORTED_MODULE_0__; });
+
+
+
+/***/ }),
+
 /***/ "./src/codes/index.js":
 /*!****************************!*\
   !*** ./src/codes/index.js ***!
@@ -335,8 +335,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "GPIOSCode", function() { return _GPIOS__WEBPACK_IMPORTED_MODULE_1__; });
 /* harmony import */ var _Raspberry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Raspberry */ "./src/codes/Raspberry/index.js");
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "RaspCode", function() { return _Raspberry__WEBPACK_IMPORTED_MODULE_2__; });
-/* harmony import */ var _Image__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Image */ "./src/codes/Image/index.js");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "ImageCode", function() { return _Image__WEBPACK_IMPORTED_MODULE_3__; });
+/* harmony import */ var _image__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./image */ "./src/codes/image/index.js");
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "ImageCode", function() { return _image__WEBPACK_IMPORTED_MODULE_3__; });
 
 
 
@@ -872,7 +872,7 @@ const allImages = (req, res) => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (allImages);
-/* WEBPACK VAR INJECTION */}.call(this, "src/routes/images/middlewares"))
+/* WEBPACK VAR INJECTION */}.call(this, "src\\routes\\images\\middlewares"))
 
 /***/ }),
 
@@ -919,7 +919,7 @@ const deleteImage = (req, res) => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (deleteImage);
-/* WEBPACK VAR INJECTION */}.call(this, "src/routes/images/middlewares"))
+/* WEBPACK VAR INJECTION */}.call(this, "src\\routes\\images\\middlewares"))
 
 /***/ }),
 
@@ -1024,10 +1024,12 @@ const uniqueImage = async (req, res) => {
     if (!_helpers__WEBPACK_IMPORTED_MODULE_4__["basics"].isANumber(quality) || !_helpers__WEBPACK_IMPORTED_MODULE_4__["basics"].isIn(quality, 0, 100)) return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_3__["basicsCode"].err.wrongQuery);
   } else quality = 50;
 
-  if (quality !== 0) transformer = transformer.resize(options).webp({
-    quality
-  });
-  console.log(options);
+  if (quality !== 0) {
+    transformer = transformer.resize(options).webp({
+      quality
+    });
+  }
+
   const s = fs__WEBPACK_IMPORTED_MODULE_1___default.a.createReadStream(file);
   s.on('open', function () {
     res.set('Content-Type', type);
@@ -1040,7 +1042,7 @@ const uniqueImage = async (req, res) => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (uniqueImage);
-/* WEBPACK VAR INJECTION */}.call(this, "src/routes/images/middlewares"))
+/* WEBPACK VAR INJECTION */}.call(this, "src\\routes\\images\\middlewares"))
 
 /***/ }),
 
@@ -1309,7 +1311,7 @@ const postToogleGate = async (req, res) => {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/pi/repos/portail/backend/src/index.js */"./src/index.js");
+module.exports = __webpack_require__(/*! C:\Users\Chappie\Repos\portail\backend\src/index.js */"./src/index.js");
 
 
 /***/ }),
