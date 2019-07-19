@@ -44,24 +44,26 @@ const uniqueImage = async(req, res) => {
         return res.status(200).send(basicsCode.err.wrongQuery)
     } else quality = 50
     if (quality!==0){
-      const _path = file
-      file=sharp(_path)
+      const transformer = sharp()
         .resize(options)
         .webp({quality})
-        .toBuffer(r => r)
+      file
+        .pipe(transformer)
+        .pipe(res);
+    }else {
+      const s = fs.createReadStream(file)
+
+      s.on('open', function () {
+          res.set('Content-Type', type)
+          s.pipe(res)
+      })
+      s.on('error', function () {
+          res.set('Content-Type', 'text/plain')
+          res.status(404).end(ImageCode.err.photoNotFound)
+      })
     }
 
 
-    const s = fs.createReadStream(file)
-
-    s.on('open', function () {
-        res.set('Content-Type', type)
-        s.pipe(res)
-    })
-    s.on('error', function () {
-        res.set('Content-Type', 'text/plain')
-        res.status(404).end(ImageCode.err.photoNotFound)
-    })
 }
 
 export default uniqueImage
