@@ -43,19 +43,16 @@ const uniqueImage = async(req, res) => {
       if(!help.isANumber(quality) || !help.isIn(quality, 0, 100))
         return res.status(200).send(basicsCode.err.wrongQuery)
     } else quality = 50
-
+    if (quality!==0)
+      file=sharp(file)
+        .resize(options)
+        .webp({quality})
+        .toBuffer()
     const s = fs.createReadStream(file)
 
     s.on('open', function () {
         res.set('Content-Type', type)
-        if(quality === 0)
         s.pipe(res)
-        else
-        s.pipe(sharp()
-          .resize(options)
-          .webp({quality})
-          .toBuffer()
-        ).pipe(res)
     })
     s.on('error', function () {
         res.set('Content-Type', 'text/plain')
