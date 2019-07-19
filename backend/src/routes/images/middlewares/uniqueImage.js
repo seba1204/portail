@@ -48,12 +48,12 @@ const uniqueImage = async(req, res) => {
       transformer = transformer
         .resize(options)
         .webp({quality})
-    console.log(options)
+
     const s = fs.createReadStream(file)
 
     s.on('open', function () {
         res.set('Content-Type', type);
-        s.pipe(transformer).pipe(res)
+        s.pipe(res)
     })
     s.on('error', function () {
         res.set('Content-Type', 'text/plain')
