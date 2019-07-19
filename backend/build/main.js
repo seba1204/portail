@@ -92,15 +92,20 @@ module.exports =
 /*!************************************!*\
   !*** ./src/codes/Basics/errors.js ***!
   \************************************/
-/*! exports provided: internalError */
+/*! exports provided: internalError, wrongQuery */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "internalError", function() { return internalError; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrongQuery", function() { return wrongQuery; });
 const internalError = {
   code: 'e500',
   description: 'internal error occured'
+};
+const wrongQuery = {
+  code: 'e501',
+  description: 'wrong query in request url'
 };
 
 /***/ }),
@@ -204,6 +209,39 @@ const relayOK = {
 
 /***/ }),
 
+/***/ "./src/codes/Image/errors.js":
+/*!***********************************!*\
+  !*** ./src/codes/Image/errors.js ***!
+  \***********************************/
+/*! exports provided: photoNotFound */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "photoNotFound", function() { return photoNotFound; });
+const photoNotFound = {
+  code: 'e8',
+  description: 'photo was not found'
+};
+
+/***/ }),
+
+/***/ "./src/codes/Image/index.js":
+/*!**********************************!*\
+  !*** ./src/codes/Image/index.js ***!
+  \**********************************/
+/*! exports provided: err */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _errors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./errors */ "./src/codes/Image/errors.js");
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "err", function() { return _errors__WEBPACK_IMPORTED_MODULE_0__; });
+
+
+
+/***/ }),
+
 /***/ "./src/codes/Raspberry/errors.js":
 /*!***************************************!*\
   !*** ./src/codes/Raspberry/errors.js ***!
@@ -286,7 +324,7 @@ const rebootServer = {
 /*!****************************!*\
   !*** ./src/codes/index.js ***!
   \****************************/
-/*! exports provided: basicsCode, GPIOSCode, RaspCode */
+/*! exports provided: basicsCode, GPIOSCode, RaspCode, ImageCode */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -297,6 +335,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "GPIOSCode", function() { return _GPIOS__WEBPACK_IMPORTED_MODULE_1__; });
 /* harmony import */ var _Raspberry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Raspberry */ "./src/codes/Raspberry/index.js");
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "RaspCode", function() { return _Raspberry__WEBPACK_IMPORTED_MODULE_2__; });
+/* harmony import */ var _Image__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Image */ "./src/codes/Image/index.js");
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "ImageCode", function() { return _Image__WEBPACK_IMPORTED_MODULE_3__; });
+
 
 
 
@@ -408,6 +449,49 @@ const restartRasp = async () => {
 const restartServer = async () => {
   if (shelljs__WEBPACK_IMPORTED_MODULE_4___default.a.exec('npm restart').code !== 0) return _codes__WEBPACK_IMPORTED_MODULE_5__["RaspCode"].err.rebootServer;
 };
+
+/***/ }),
+
+/***/ "./src/helpers/basics.js":
+/*!*******************************!*\
+  !*** ./src/helpers/basics.js ***!
+  \*******************************/
+/*! exports provided: isANumber, areNumbers, isIn */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isANumber", function() { return isANumber; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "areNumbers", function() { return areNumbers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isIn", function() { return isIn; });
+const isANumber = d => {
+  return Number(d).toString() !== 'NaN';
+};
+const areNumbers = d => {
+  return d.filter(e => !isANumber(e)).lenght === 0;
+};
+const isIn = (number, min, max) => {
+  return !(number < min || number > max);
+};
+
+/***/ }),
+
+/***/ "./src/helpers/index.js":
+/*!******************************!*\
+  !*** ./src/helpers/index.js ***!
+  \******************************/
+/*! exports provided: basics, raspberry */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _basics__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./basics */ "./src/helpers/basics.js");
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "basics", function() { return _basics__WEBPACK_IMPORTED_MODULE_0__; });
+/* harmony import */ var _Raspberry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Raspberry */ "./src/helpers/Raspberry.js");
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "raspberry", function() { return _Raspberry__WEBPACK_IMPORTED_MODULE_1__; });
+
+
+
 
 /***/ }),
 
@@ -879,6 +963,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var sharp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sharp */ "sharp");
 /* harmony import */ var sharp__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sharp__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _codes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../codes */ "./src/codes/index.js");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../helpers */ "./src/helpers/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
 
 
 
@@ -897,16 +991,43 @@ var mime = {
 const uniqueImage = async (req, res) => {
   let file = path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, `../../../images/${req.params.name}`);
   const type = mime[path__WEBPACK_IMPORTED_MODULE_0___default.a.extname(file).slice(1)] || 'text/plain';
-  const {
+  let {
     width,
-    heigth
+    height,
+    quality
   } = req.query;
-  const transformer = sharp__WEBPACK_IMPORTED_MODULE_2___default()().resize({
-    width: 200,
-    fit: sharp__WEBPACK_IMPORTED_MODULE_2___default.a.fit.inside
-  }).webp({
-    quality: 100
+  let options = {};
+  let transformer = sharp__WEBPACK_IMPORTED_MODULE_2___default()(); // on vérifie les paramètres !
+
+  if (width !== undefined) {
+    width = Number(width);
+    if (!_helpers__WEBPACK_IMPORTED_MODULE_4__["basics"].isANumber(width) || !_helpers__WEBPACK_IMPORTED_MODULE_4__["basics"].isIn(width, 1, 5000)) return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_3__["basicsCode"].err.wrongQuery);
+    options = _objectSpread({}, options, {
+      width
+    });
+  } else if (height === undefined) options = _objectSpread({}, options, {
+    width: 300
   });
+
+  if (height !== undefined) {
+    if (!_helpers__WEBPACK_IMPORTED_MODULE_4__["basics"].isANumber(height) || !_helpers__WEBPACK_IMPORTED_MODULE_4__["basics"].isIn(height, 1, 5000)) return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_3__["basicsCode"].err.wrongQuery);
+    options = _objectSpread({}, options, {
+      height: Number(height)
+    });
+    if (width !== undefined) options = _objectSpread({}, options, {
+      position: sharp__WEBPACK_IMPORTED_MODULE_2___default.a.strategy.attention
+    });
+  }
+
+  if (quality !== undefined) {
+    quality = Number(quality);
+    if (!_helpers__WEBPACK_IMPORTED_MODULE_4__["basics"].isANumber(quality) || !_helpers__WEBPACK_IMPORTED_MODULE_4__["basics"].isIn(quality, 0, 100)) return res.status(200).send(_codes__WEBPACK_IMPORTED_MODULE_3__["basicsCode"].err.wrongQuery);
+  } else quality = 50;
+
+  if (quality !== 0) transformer = transformer.resize(options).webp({
+    quality
+  });
+  console.log(options);
   const s = fs__WEBPACK_IMPORTED_MODULE_1___default.a.createReadStream(file);
   s.on('open', function () {
     res.set('Content-Type', type);
@@ -914,7 +1035,7 @@ const uniqueImage = async (req, res) => {
   });
   s.on('error', function () {
     res.set('Content-Type', 'text/plain');
-    res.status(404).end('Not found');
+    res.status(404).end(_codes__WEBPACK_IMPORTED_MODULE_3__["ImageCode"].err.photoNotFound);
   });
 };
 

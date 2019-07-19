@@ -25,12 +25,12 @@
  - returns an empty json if there is no images
 
 
- | query       | optional |  type  |   possible values  | default |
- |-------------|:--------:|:------:|:------------------:|:-------:|
- | width (px)  |   true   | number |       1-5000       |   300   |
- | height (px) |   true   | number |       1-5000       |         |
- | quality     |   true   | number | 0-100 (0=original) |    50   |
- 
+ |    query    | optional |   possible values  | default |
+ |:-----------:|:--------:|:------------------:|:-------:|
+ |  width (px) |   true   |       1-5000       |   300   |
+ | height (px) |   true   |       1-5000       |    --   |
+ | quality (%) |   true   | 0-100 (0=original photo) |    50   |
+
 
 **:point_right:/images/:name**
 =====================
