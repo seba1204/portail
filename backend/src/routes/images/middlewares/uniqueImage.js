@@ -21,7 +21,7 @@ const uniqueImage = async(req, res) => {
     const type = mime[path.extname(file).slice(1)] || 'text/plain'
     let { width, height, quality } = req.query
     let options = {}
-    let transformer = sharp()
+    let transformer
 
     // on vérifie les paramètres !
     if (width !== undefined){
@@ -45,14 +45,14 @@ const uniqueImage = async(req, res) => {
         return res.status(200).send(basicsCode.err.wrongQuery)
     } else quality = 50
     if (quality !== 0)
-      transformer = transformer
+      transformer = sharp()
         .resize(options)
         .webp({quality})
 
     const s = fs.createReadStream(file)
 
     s.on('open', function () {
-        res.set('Content-Type', type);
+        res.set('Content-Type', type)
         s.pipe(transformer).pipe(res)
     })
     s.on('error', function () {
