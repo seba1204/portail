@@ -49,7 +49,7 @@ const uniqueImage = async(req, res) => {
         .webp({quality})
         .toBuffer()
     else file = _path
-    const s = fs.createReadStream(file)
+    const s = fs.createReadStream(_path)
 
     s.on('open', function () {
         res.set('Content-Type', type)
