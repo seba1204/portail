@@ -47,6 +47,7 @@ const uniqueImage = async(req, res) => {
       const transformer = sharp()
         .resize(options)
         .webp({quality})
+        .toBuffer()
       fs.createReadStream(file)
         .pipe(transformer)
         .pipe(res);
