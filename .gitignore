@@ -4,6 +4,8 @@ backend/src/constantes.js
 #images
 backend/src/images
 
+# icon file
+desktop.ini
 
 # Logs
 logs
